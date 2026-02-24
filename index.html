@@ -88,14 +88,15 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
   border-radius:var(--radius);
   overflow:hidden;
   display:flex;
-  align-items:stretch;
+  align-items:center;
   cursor:pointer;
   border:2px solid #e4ece4;
   box-shadow:0 1px 6px rgba(0,0,0,.05);
   transition:border-color .12s, transform .12s;
+  height:86px;
 }
 .cat-row:active { transform:scale(.97); border-color:var(--green); }
-.cat-img { width:80px; flex-shrink:0; overflow:hidden; background:var(--green-pale); }
+.cat-img { width:86px; height:86px; flex-shrink:0; overflow:hidden; background:var(--green-pale); }
 .cat-img img { width:100%; height:100%; object-fit:cover; display:block; }
 .cat-body { flex:1; padding:0 12px; display:flex; align-items:center; justify-content:space-between; }
 .cat-name  { font-size:17px; font-weight:900; color:var(--text); }
@@ -118,14 +119,15 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
   border-radius:var(--radius);
   overflow:hidden;
   display:flex;
-  align-items:stretch;
+  align-items:center;
   cursor:pointer;
   border:2px solid #e4ece4;
   box-shadow:0 1px 6px rgba(0,0,0,.05);
   transition:border-color .12s, transform .12s;
+  height:80px;
 }
 .prod-row:active { transform:scale(.97); border-color:var(--green); }
-.prod-img { width:72px; flex-shrink:0; overflow:hidden; background:var(--green-pale); }
+.prod-img { width:80px; height:80px; flex-shrink:0; overflow:hidden; background:var(--green-pale); }
 .prod-img img { width:100%; height:100%; object-fit:cover; display:block; }
 .prod-body { flex:1; padding:0 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .prod-name { font-size:16px; font-weight:900; color:var(--text); }
@@ -247,10 +249,10 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
 
 /* ── TOAST ── */
 .toast {
-  position:absolute;
+  position:fixed;
   bottom:calc(90px + env(safe-area-inset-bottom));
   left:50%;
-  transform:translateX(-50%) translateY(70px);
+  transform:translateX(-50%) translateY(120px);
   background:var(--green-dark);
   color:#fff;
   padding:9px 20px;
@@ -258,10 +260,15 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
   font-family:'Heebo',sans-serif;
   font-weight:700;
   font-size:14px;
-  transition:transform .25s ease;
-  z-index:999;
+  transition:transform .25s ease, opacity .25s ease;
+  z-index:9999;
   pointer-events:none;
   white-space:nowrap;
+  opacity:0;
+}
+.toast.show {
+  transform:translateX(-50%) translateY(0);
+  opacity:1;
 }
 .toast.show { transform:translateX(-50%) translateY(0); }
 </style>
@@ -503,7 +510,6 @@ function renderDetail() {
 
   loadHero(p.wp);
 
-  // dots
   var dw = document.getElementById('detailDots');
   dw.innerHTML = '';
   items.forEach(function(_, i){
@@ -512,39 +518,35 @@ function renderDetail() {
     dw.appendChild(d);
   });
 
-  // attrs
   var html = '';
   if (p.sun)   html += '<div class="attr-row"><span class="attr-lbl">☀️ שמש</span><span class="attr-val">' + p.sun + '</span></div>';
   if (p.water) html += '<div class="attr-row"><span class="attr-lbl">💧 השקיה</span><span class="attr-val">' + p.water + '</span></div>';
   if (p.type)  html += '<div class="attr-row"><span class="attr-lbl">🪴 סוג</span><span class="attr-val">' + p.type + '</span></div>';
   document.getElementById('detailAttrs').innerHTML = html;
-  // hide attrs card if empty
   document.getElementById('detailAttrs').style.display = html ? '' : 'none';
 
   document.getElementById('btnPrev').disabled = curIdx <= 0;
   document.getElementById('btnNext').disabled = curIdx >= items.length - 1;
 
+  document.getElementById('btnPrev').onclick = function(){
+    if (curIdx > 0) { curIdx--; renderDetail(); }
+  };
+
+  document.getElementById('btnNext').onclick = function(){
+    if (curIdx < items.length - 1) { curIdx++; renderDetail(); }
+  };
+
   var btn = document.getElementById('addBtn');
   btn.textContent = 'הוסף לסל';
   btn.classList.remove('added');
+  btn.onclick = function(){
+    cart.push({ cat: curCat, idx: curIdx });
+    document.getElementById('cartBadge').textContent = cart.length;
+    btn.textContent = '✓ נוסף לסל';
+    btn.classList.add('added');
+    toast('נוסף לסל');
+  };
 }
-
-document.getElementById('btnPrev').addEventListener('click', function(){
-  if (curIdx > 0) { curIdx--; renderDetail(); }
-});
-document.getElementById('btnNext').addEventListener('click', function(){
-  if (curIdx < DATA[curCat].items.length - 1) { curIdx++; renderDetail(); }
-});
-document.getElementById('addBtn').addEventListener('click', function(){
-  var p = DATA[curCat].items[curIdx];
-  cart.push(p);
-  document.getElementById('cartBadge').textContent = cart.length;
-  var btn = document.getElementById('addBtn');
-  btn.textContent = '✓ נוסף לסל!';
-  btn.classList.add('added');
-  toast(p.n + ' נוסף לסל');
-  setTimeout(function(){ btn.textContent='הוסף לסל'; btn.classList.remove('added'); }, 1800);
-});
 
 function showView(name) {
   var map = { cats:'viewCats', prods:'viewProds', detail:'viewDetail' };
@@ -552,15 +554,80 @@ function showView(name) {
   document.getElementById(map[name]).classList.add('active');
 }
 function viewCart() {
-  if (!cart.length) { toast('הסל ריק'); return; }
-  var total = cart.reduce(function(s,p){ return s+p.p; },0);
-  alert('🛒 הסל שלך:\n\n' + cart.map(function(p){ return p.n+' – ₪'+p.p; }).join('\n') + '\n\nסה"כ: ₪'+total);
+  document.getElementById('prodTitle').textContent = 'סל קניות';
+  var list = document.getElementById('prodList');
+  list.innerHTML = '';
+
+  if (!cart.length) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:#888;font-weight:700;">הסל ריק</div>';
+    showView('prods');
+    return;
+  }
+
+  var total = 0;
+
+  cart.forEach(function(item, i){
+    var p = DATA[item.cat].items[item.idx];
+    total += p.p;
+
+    var row = document.createElement('div');
+    row.className = 'prod-row';
+
+    var body = document.createElement('div');
+    body.className = 'prod-body';
+    body.style.width = '100%';
+    body.style.justifyContent = 'space-between';
+
+    var left = document.createElement('div');
+    left.innerHTML = '<div class="prod-name">' + p.n + '</div>';
+
+    var price = document.createElement('div');
+    price.className = 'prod-price';
+    price.textContent = '₪' + p.p;
+
+    var removeBtn = document.createElement('button');
+    removeBtn.textContent = '✕';
+    removeBtn.style.cssText = 'margin-right:8px;background:none;border:none;color:#c33;font-weight:900;font-size:16px;cursor:pointer;';
+    removeBtn.onclick = function(e){
+      e.stopPropagation();
+      cart.splice(i,1);
+      document.getElementById('cartBadge').textContent = cart.length;
+      viewCart();
+    };
+
+    body.appendChild(left);
+    body.appendChild(price);
+    body.appendChild(removeBtn);
+
+    row.appendChild(body);
+
+    row.onclick = function(){
+      curCat = item.cat;
+      curIdx = item.idx;
+      renderDetail();
+      showView('detail');
+    };
+
+    list.appendChild(row);
+  });
+
+  var sum = document.createElement('div');
+  sum.style.cssText = 'padding:16px;font-weight:900;text-align:center;color:#2a6a2a;';
+  sum.textContent = 'סה"כ: ₪' + total;
+  list.appendChild(sum);
+
+  showView('prods');
 }
+var toastTimer = null;
 function toast(msg) {
   var el = document.getElementById('toast');
   el.textContent = '✓ ' + msg;
   el.classList.add('show');
-  setTimeout(function(){ el.classList.remove('show'); }, 2000);
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){
+    el.classList.remove('show');
+    toastTimer = null;
+  }, 2000);
 }
 </script>
 </body>
