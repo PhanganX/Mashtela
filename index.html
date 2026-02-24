@@ -12,50 +12,39 @@
   --orange:#e07010; --text:#1a2e1a; --white:#fff;
   --radius:14px;
 }
-body { font-family:'Heebo',sans-serif; background:#111; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100vh; overflow:hidden; }
 
-/* ── PHONE FRAME ── */
+/* ── LAYOUT WRAPPER ── */
 .frame {
   width:100%;
-  max-width:430px;
-  height:100vh;
-  max-height:100dvh;
-  background:#0a0a0a;
-  border-radius:0;
-  padding:0;
-  box-shadow:none;
-  position:relative;
+  max-width:1100px;
+  margin:0 auto;
   display:flex;
   flex-direction:column;
+  height:100vh;
+  background:#f4f6f4;
 }
 
-@media (min-width:768px) {
-  .frame {
-    max-width:430px;
-    height:90vh;
-    border-radius:24px;
-    margin:auto;
-    box-shadow:0 20px 60px rgba(0,0,0,.6);
-  }
-}
-.notch { position:absolute; top:20px; left:50%; transform:translateX(-50%); width:120px; height:34px; background:#0a0a0a; border-radius:20px; z-index:100; }
-.side { position:absolute; background:#3a3a3a; border-radius:3px; }
-.side.r  { right:-3px; top:160px; width:4px; height:80px; }
-.side.l1 { left:-3px; top:130px; width:4px; height:38px; }
-.side.l2 { left:-3px; top:182px; width:4px; height:58px; }
-.side.l3 { left:-3px; top:254px; width:4px; height:58px; }
+.notch, .side { display:none; }
 
 /* ── SCREEN ── */
 .screen {
-  flex:1; background:#f4f6f4; border-radius:42px;
-  overflow:hidden; display:flex; flex-direction:column;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  min-height:0;
 }
 
 /* ── TOP BAR ── */
 .topbar {
-  background:var(--white); padding:50px 18px 12px;
-  display:flex; align-items:center; justify-content:space-between;
-  border-bottom:1px solid #e0e8e0; flex-shrink:0;
+  background:var(--white);
+  padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #e0e8e0;
+  flex-shrink:0;
 }
 .topbar-title { font-size:20px; font-weight:900; color:var(--green-dark); letter-spacing:-.3px; }
 .cart-btn { position:relative; background:none; border:none; font-size:24px; cursor:pointer; line-height:1; }
@@ -86,16 +75,23 @@ body { font-family:'Heebo',sans-serif; background:#111; min-height:100vh; displa
    CATEGORY LIST — 7 items, no scroll
 ══════════════════════════════ */
 .cat-list {
-  flex:1; display:flex; flex-direction:column;
-  padding:10px 12px; gap:7px; overflow:hidden;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  gap:14px;
+  overflow:auto;
 }
 .cat-row {
-  flex:1; background:var(--white); border-radius:var(--radius);
-  overflow:hidden; display:flex; align-items:stretch;
-  cursor:pointer; border:2px solid #e4ece4;
+  background:var(--white);
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;
+  align-items:stretch;
+  cursor:pointer;
+  border:2px solid #e4ece4;
   box-shadow:0 1px 6px rgba(0,0,0,.05);
   transition:border-color .12s, transform .12s;
-  min-height:0;
 }
 .cat-row:active { transform:scale(.97); border-color:var(--green); }
 .cat-img { width:80px; flex-shrink:0; overflow:hidden; background:var(--green-pale); }
@@ -109,16 +105,23 @@ body { font-family:'Heebo',sans-serif; background:#111; min-height:100vh; displa
    PRODUCT LIST — compact rows, no scroll
 ══════════════════════════════ */
 .prod-list {
-  flex:1; display:flex; flex-direction:column;
-  padding:8px 12px; gap:6px; overflow:hidden;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  gap:14px;
+  overflow:auto;
 }
 .prod-row {
-  flex:1; background:var(--white); border-radius:var(--radius);
-  overflow:hidden; display:flex; align-items:stretch;
-  cursor:pointer; border:2px solid #e4ece4;
+  background:var(--white);
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;
+  align-items:stretch;
+  cursor:pointer;
+  border:2px solid #e4ece4;
   box-shadow:0 1px 6px rgba(0,0,0,.05);
   transition:border-color .12s, transform .12s;
-  min-height:0;
 }
 .prod-row:active { transform:scale(.97); border-color:var(--green); }
 .prod-img { width:72px; flex-shrink:0; overflow:hidden; background:var(--green-pale); }
@@ -132,8 +135,13 @@ body { font-family:'Heebo',sans-serif; background:#111; min-height:100vh; displa
    PRODUCT DETAIL — no scroll, everything visible
 ══════════════════════════════ */
 .detail-wrap {
-  flex:1; display:flex; flex-direction:column;
-  padding:10px 12px 10px; gap:10px; overflow:hidden; min-height:0;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  gap:20px;
+  overflow:auto;
+  min-height:0;
 }
 
 /* Image area */
