@@ -6,568 +6,294 @@
 <title>המשתלה</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 :root {
-  --green:      #3a8c3a;
-  --green-dark: #2a6a2a;
-  --green-pale: #f0f8f0;
-  --orange:     #e07010;
-  --gray-side:  #c8ccc8;
-  --text:       #1a2e1a;
-  --white:      #ffffff;
-  --bg:         #1a1a1a;
+  --green:#3a8c3a; --green-dark:#2a6a2a;
+  --green-pale:#f0f8f0; --orange:#e07010;
+  --text:#1a2e1a; --white:#fff;
 }
+body { font-family:'Heebo',sans-serif; background:#1a1a1a; min-height:100vh; display:flex; align-items:center; justify-content:center; }
 
-body {
-  font-family: 'Heebo', sans-serif;
-  background: var(--bg);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.frame { width:390px; height:844px; background:#0a0a0a; border-radius:54px; padding:14px;
+  box-shadow:0 0 0 2px #333,0 0 0 6px #1a1a1a,0 40px 100px rgba(0,0,0,.8);
+  position:relative; display:flex; flex-direction:column; }
+.notch { position:absolute; top:20px; left:50%; transform:translateX(-50%); width:120px; height:34px; background:#0a0a0a; border-radius:20px; z-index:100; }
+.btn-r  { position:absolute; right:-3px; top:160px; width:4px; height:80px; background:#444; border-radius:2px 0 0 2px; }
+.btn-l1 { position:absolute; left:-3px; top:130px; width:4px; height:40px; background:#444; border-radius:0 2px 2px 0; }
+.btn-l2 { position:absolute; left:-3px; top:185px; width:4px; height:60px; background:#444; border-radius:0 2px 2px 0; }
+.btn-l3 { position:absolute; left:-3px; top:260px; width:4px; height:60px; background:#444; border-radius:0 2px 2px 0; }
 
-/* ── PHONE FRAME ── */
-.frame {
-  width: 390px;
-  height: 844px;
-  background: #0a0a0a;
-  border-radius: 54px;
-  padding: 14px;
-  box-shadow:
-    0 0 0 2px #333,
-    0 0 0 6px #1a1a1a,
-    0 40px 100px rgba(0,0,0,0.8);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
+.screen { flex:1; background:#f5f7f5; border-radius:42px; overflow:hidden; display:flex; flex-direction:column; position:relative; }
 
-/* Notch / Dynamic Island */
-.notch {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 34px;
-  background: #0a0a0a;
-  border-radius: 20px;
-  z-index: 100;
-}
+.topbar { background:var(--white); padding:52px 20px 14px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e8eee8; flex-shrink:0; }
+.topbar-title { font-size:22px; font-weight:900; color:var(--green-dark); }
+.topbar-cart { position:relative; background:none; border:none; font-size:26px; cursor:pointer; }
+.cart-badge { position:absolute; top:-4px; left:-6px; background:#e03030; color:#fff; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:900; display:flex; align-items:center; justify-content:center; }
 
-/* Side buttons */
-.btn-side-right {
-  position: absolute;
-  right: -3px; top: 160px;
-  width: 4px; height: 80px;
-  background: #444;
-  border-radius: 2px 0 0 2px;
-}
-.btn-side-left-1 {
-  position: absolute;
-  left: -3px; top: 130px;
-  width: 4px; height: 40px;
-  background: #444;
-  border-radius: 0 2px 2px 0;
-}
-.btn-side-left-2 {
-  position: absolute;
-  left: -3px; top: 185px;
-  width: 4px; height: 60px;
-  background: #444;
-  border-radius: 0 2px 2px 0;
-}
-.btn-side-left-3 {
-  position: absolute;
-  left: -3px; top: 260px;
-  width: 4px; height: 60px;
-  background: #444;
-  border-radius: 0 2px 2px 0;
-}
+.view { display:none; flex:1; flex-direction:column; overflow:hidden; }
+.view.active { display:flex; }
 
-/* ── SCREEN ── */
-.screen {
-  flex: 1;
-  background: #f5f7f5;
-  border-radius: 42px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
+/* CATS */
+.cat-scroll { flex:1; overflow-y:auto; padding:14px 14px 8px; display:flex; flex-direction:column; gap:10px; }
+.cat-item { background:var(--white); border-radius:18px; overflow:hidden; cursor:pointer; border:2px solid #e8eee8;
+  box-shadow:0 2px 10px rgba(0,0,0,.05); display:flex; align-items:center; height:90px; transition:all .15s; }
+.cat-item:active { transform:scale(.97); border-color:var(--green); }
+.cat-thumb { width:110px; height:100%; flex-shrink:0; overflow:hidden; position:relative; background:var(--green-pale); }
+.cat-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.thumb-loading { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+.thumb-spinner { width:24px; height:24px; border:3px solid #ddd; border-top-color:var(--green); border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.cat-text { padding:0 14px; flex:1; }
+.cat-name  { font-size:17px; font-weight:900; color:var(--text); }
+.cat-count { font-size:13px; color:#999; margin-top:3px; }
+.cat-arrow { font-size:20px; color:#ccc; padding-left:12px; }
 
-/* ── TOP BAR ── */
-.topbar {
-  background: var(--white);
-  padding: 52px 20px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #e8eee8;
-  flex-shrink: 0;
-}
-.topbar-title {
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--green-dark);
-}
-.topbar-cart {
-  position: relative;
-  background: none;
-  border: none;
-  font-size: 26px;
-  cursor: pointer;
-  line-height: 1;
-}
-.cart-badge {
-  position: absolute;
-  top: -4px; left: -6px;
-  background: #e03030;
-  color: #fff;
-  border-radius: 50%;
-  width: 18px; height: 18px;
-  font-size: 10px;
-  font-weight: 900;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Heebo', sans-serif;
-}
+/* PROD LIST */
+.back-bar { background:var(--white); padding:12px 16px; display:flex; align-items:center; border-bottom:1px solid #e8eee8; flex-shrink:0; }
+.back-btn  { background:none; border:none; font-size:15px; font-weight:700; color:var(--green-dark); cursor:pointer; font-family:'Heebo',sans-serif; }
+.back-title { font-size:17px; font-weight:900; color:var(--text); flex:1; text-align:center; }
 
-/* ── VIEWS ── */
-.view { display: none; flex: 1; flex-direction: column; overflow: hidden; }
-.view.active { display: flex; }
+.prod-scroll { flex:1; overflow-y:auto; padding:12px 12px 6px; display:flex; flex-direction:column; gap:10px; }
+.prod-item { background:var(--white); border-radius:16px; overflow:hidden; display:flex; align-items:center;
+  cursor:pointer; border:2px solid #e8eee8; box-shadow:0 2px 8px rgba(0,0,0,.04); height:82px; transition:all .15s; }
+.prod-item:active { transform:scale(.97); border-color:var(--green); }
+.prod-thumb { width:90px; height:100%; flex-shrink:0; overflow:hidden; background:var(--green-pale); position:relative; }
+.prod-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.prod-info  { padding:0 12px; flex:1; min-width:0; }
+.prod-name  { font-size:15px; font-weight:700; color:var(--text); }
+.prod-sub   { font-size:12px; color:#999; margin-top:3px; }
+.prod-price { font-size:17px; font-weight:900; color:var(--orange); padding-left:14px; flex-shrink:0; }
 
-/* ══ CATEGORY LIST VIEW ══ */
-.cat-view { background: #f5f7f5; }
+/* DETAIL */
+.detail-view { background:var(--white); }
+.detail-scroll { flex:1; overflow-y:auto; }
 
-.cat-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 16px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.detail-hero { width:100%; height:270px; position:relative; overflow:hidden; background:var(--green-pale); display:flex; align-items:center; justify-content:center; }
+.detail-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.detail-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.4) 0%,transparent 55%); pointer-events:none; z-index:2; }
+.hero-loading { display:flex; flex-direction:column; align-items:center; gap:10px; color:#aaa; font-size:13px; }
+.hero-spinner { width:36px; height:36px; border:4px solid #ddd; border-top-color:var(--green); border-radius:50%; animation:spin .8s linear infinite; }
 
-.cat-item {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 18px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  border: 2px solid #e8eee8;
-  transition: all 0.15s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-.cat-item:active { transform: scale(0.97); background: var(--green-pale); }
-.cat-item-left { display: flex; align-items: center; gap: 14px; }
-.cat-emoji { font-size: 32px; }
-.cat-info-text {}
-.cat-name { font-size: 17px; font-weight: 900; color: var(--text); }
-.cat-count { font-size: 13px; color: #888; margin-top: 1px; }
-.cat-arrow { font-size: 18px; color: #bbb; }
+.img-nav { position:absolute; bottom:14px; width:100%; display:flex; justify-content:space-between; align-items:center; padding:0 14px; z-index:3; }
+.img-nav-btn { width:40px; height:32px; background:rgba(255,255,255,.88); border:none; border-radius:20px; font-size:16px; font-weight:700; cursor:pointer; color:#333; box-shadow:0 2px 8px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; }
+.img-nav-btn:disabled { opacity:.3; }
+.dots { display:flex; gap:5px; }
+.dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.45); transition:background .2s; }
+.dot.active { background:#fff; }
 
-/* ══ PRODUCT LIST VIEW ══ */
-.prod-list-view { background: #f5f7f5; }
+.detail-body { padding:20px 20px 10px; }
+.detail-name  { font-size:26px; font-weight:900; color:var(--green-dark); margin-bottom:4px; }
+.detail-price { font-size:28px; font-weight:900; color:var(--orange); margin-bottom:18px; }
+.detail-attrs { background:var(--green-pale); border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:11px; margin-bottom:16px; }
+.d-attr { display:flex; align-items:center; justify-content:space-between; font-size:15px; }
+.d-label { color:#777; font-weight:500; }
+.d-val   { font-weight:700; color:var(--text); display:flex; align-items:center; gap:6px; }
+.detail-desc { font-size:14px; color:#666; line-height:1.75; border-top:1px solid #eee; padding-top:14px; padding-bottom:16px; }
 
-.back-bar {
-  background: var(--white);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid #e8eee8;
-  flex-shrink: 0;
-}
-.back-btn {
-  background: none;
-  border: none;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--green-dark);
-  cursor: pointer;
-  font-family: 'Heebo', sans-serif;
-  display: flex; align-items: center; gap: 4px;
-  padding: 4px 0;
-}
-.back-title { font-size: 17px; font-weight: 900; color: var(--text); flex: 1; text-align: center; }
+.detail-footer { padding:12px 16px 20px; background:var(--white); border-top:1px solid #eee; flex-shrink:0; }
+.add-btn { width:100%; padding:16px; background:var(--green); color:#fff; border:none; border-radius:14px;
+  font-family:'Heebo',sans-serif; font-size:18px; font-weight:900; cursor:pointer;
+  box-shadow:0 4px 16px rgba(58,140,58,.3); transition:background .15s; }
+.add-btn:active { transform:scale(.98); }
+.add-btn.added { background:#5aaa5a; }
 
-.prod-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px 14px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.bottom-nav { background:var(--white); border-top:1px solid #e8eee8; display:flex; padding:8px 0 20px; flex-shrink:0; }
+.bnav-btn { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none;
+  cursor:pointer; font-family:'Heebo',sans-serif; font-size:11px; color:#aaa; padding:4px 0; }
+.bnav-btn.active { color:var(--green-dark); }
+.bnav-icon { font-size:22px; }
 
-.prod-item {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-  border: 2px solid #e8eee8;
-  transition: all 0.15s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-.prod-item:active { transform: scale(0.97); border-color: var(--green); }
-.prod-thumb {
-  width: 68px; height: 68px;
-  border-radius: 12px;
-  background: var(--green-pale);
-  border: 1px solid #d8eed8;
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  font-size: 38px;
-}
-.prod-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
-.prod-item-info { flex: 1; min-width: 0; }
-.prod-item-name { font-size: 15px; font-weight: 700; color: var(--text); }
-.prod-item-attrs { font-size: 12px; color: #888; margin-top: 3px; }
-.prod-item-price { font-size: 17px; font-weight: 900; color: var(--orange); flex-shrink: 0; }
-
-/* ══ PRODUCT DETAIL VIEW ══ */
-.detail-view { background: var(--white); }
-
-.detail-scroll {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.detail-img-wrap {
-  width: 100%;
-  height: 260px;
-  background: var(--green-pale);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 110px;
-  border-bottom: 1px solid #e8eee8;
-  position: relative;
-  overflow: hidden;
-}
-.detail-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 16px;
-}
-
-/* Nav arrows on image */
-.img-nav {
-  position: absolute;
-  bottom: 14px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 16px;
-}
-.img-nav-btn {
-  width: 44px; height: 34px;
-  background: rgba(255,255,255,0.9);
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: #444;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: all 0.15s;
-}
-.img-nav-btn:disabled { opacity: 0.3; }
-.img-nav-btn:active:not(:disabled) { transform: scale(0.92); }
-
-/* Dots indicator */
-.dots {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-}
-.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.2);
-  transition: background 0.2s;
-}
-.dot.active { background: var(--green-dark); }
-
-.detail-info {
-  padding: 22px 20px 12px;
-}
-.detail-name {
-  font-size: 26px; font-weight: 900;
-  color: var(--green-dark);
-  margin-bottom: 6px;
-}
-.detail-price {
-  font-size: 28px; font-weight: 900;
-  color: var(--orange);
-  margin-bottom: 20px;
-}
-
-.detail-attrs {
-  background: var(--green-pale);
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-.d-attr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 15px;
-}
-.d-attr-label { color: #777; font-weight: 500; }
-.d-attr-val { font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; }
-.d-attr-icon { font-size: 18px; }
-
-.detail-desc {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.75;
-  padding-bottom: 16px;
-  border-top: 1px solid #eee;
-  padding-top: 16px;
-}
-
-/* Add button sticky at bottom */
-.detail-footer {
-  padding: 12px 16px 20px;
-  background: var(--white);
-  border-top: 1px solid #eee;
-  flex-shrink: 0;
-}
-.add-btn {
-  width: 100%;
-  padding: 16px;
-  background: var(--green);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-family: 'Heebo', sans-serif;
-  font-size: 18px;
-  font-weight: 900;
-  cursor: pointer;
-  transition: background 0.15s;
-  box-shadow: 0 4px 16px rgba(58,140,58,0.3);
-}
-.add-btn:active { transform: scale(0.98); }
-.add-btn.added { background: #5aaa5a; }
-
-/* ── BOTTOM NAV ── */
-.bottom-nav {
-  background: var(--white);
-  border-top: 1px solid #e8eee8;
-  display: flex;
-  padding: 8px 0 20px;
-  flex-shrink: 0;
-}
-.bnav-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Heebo', sans-serif;
-  font-size: 11px;
-  color: #aaa;
-  padding: 4px 0;
-  transition: color 0.15s;
-}
-.bnav-btn.active { color: var(--green-dark); }
-.bnav-icon { font-size: 22px; }
-
-/* ── TOAST ── */
-.toast {
-  position: absolute;
-  bottom: 90px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--green-dark);
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 40px;
-  font-family: 'Heebo', sans-serif;
-  font-weight: 700; font-size: 14px;
-  transition: transform 0.25s ease;
-  z-index: 999; pointer-events: none;
-  white-space: nowrap;
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
+.toast { position:absolute; bottom:90px; left:50%; transform:translateX(-50%) translateY(80px);
+  background:var(--green-dark); color:#fff; padding:10px 20px; border-radius:40px;
+  font-family:'Heebo',sans-serif; font-weight:700; font-size:14px; transition:transform .25s ease;
+  z-index:999; pointer-events:none; white-space:nowrap; }
+.toast.show { transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
 <div class="frame">
-  <!-- Physical buttons -->
-  <div class="btn-side-right"></div>
-  <div class="btn-side-left-1"></div>
-  <div class="btn-side-left-2"></div>
-  <div class="btn-side-left-3"></div>
-  <!-- Dynamic Island -->
+  <div class="btn-r"></div><div class="btn-l1"></div><div class="btn-l2"></div><div class="btn-l3"></div>
   <div class="notch"></div>
-
   <div class="screen">
-
-    <!-- TOP BAR -->
     <div class="topbar">
       <div class="topbar-title">🌿 המשתלה</div>
-      <button class="topbar-cart" onclick="viewCart()">
-        🛒
-        <span class="cart-badge" id="cartBadge">0</span>
-      </button>
+      <button class="topbar-cart" onclick="viewCart()">🛒<span class="cart-badge" id="cartBadge">0</span></button>
     </div>
 
-    <!-- VIEW: CATEGORY LIST -->
-    <div class="view cat-view active" id="viewCats">
-      <div class="cat-scroll" id="catScroll"></div>
-    </div>
+    <div class="view active" id="viewCats"><div class="cat-scroll" id="catScroll"></div></div>
 
-    <!-- VIEW: PRODUCT LIST -->
-    <div class="view prod-list-view" id="viewProds">
+    <div class="view" id="viewProds">
       <div class="back-bar">
-        <button class="back-btn" onclick="goBack('cats')">&#8250; חזרה</button>
+        <button class="back-btn" onclick="showView('cats')">&#8250; חזרה</button>
         <div class="back-title" id="prodListTitle"></div>
-        <div style="width:60px"></div>
+        <div style="width:56px"></div>
       </div>
       <div class="prod-scroll" id="prodScroll"></div>
     </div>
 
-    <!-- VIEW: PRODUCT DETAIL -->
     <div class="view detail-view" id="viewDetail">
       <div class="back-bar">
-        <button class="back-btn" onclick="goBack('prods')">&#8250; חזרה</button>
+        <button class="back-btn" onclick="showView('prods')">&#8250; חזרה</button>
         <div class="back-title" id="detailBackTitle"></div>
-        <div style="width:60px"></div>
+        <div style="width:56px"></div>
       </div>
       <div class="detail-scroll">
-        <div class="detail-img-wrap" id="detailImgWrap">
-          <img id="detailImg" src="" alt="" style="display:none">
-          <span id="detailEmoji"></span>
+        <div class="detail-hero" id="detailHero">
           <div class="img-nav">
             <button class="img-nav-btn" id="btnNext">&#8250;</button>
             <div class="dots" id="dotsWrap"></div>
             <button class="img-nav-btn" id="btnPrev">&#8249;</button>
           </div>
         </div>
-        <div class="detail-info">
-          <div class="detail-name" id="detailName"></div>
+        <div class="detail-body">
+          <div class="detail-name"  id="detailName"></div>
           <div class="detail-price" id="detailPrice"></div>
           <div class="detail-attrs" id="detailAttrs"></div>
-          <div class="detail-desc" id="detailDesc"></div>
+          <div class="detail-desc"  id="detailDesc"></div>
         </div>
       </div>
-      <div class="detail-footer">
-        <button class="add-btn" id="addBtn">הוסף לסל</button>
-      </div>
+      <div class="detail-footer"><button class="add-btn" id="addBtn">הוסף לסל</button></div>
     </div>
 
-    <!-- BOTTOM NAV -->
     <div class="bottom-nav">
-      <button class="bnav-btn active" id="bnav-cats" onclick="goBack('cats')">
-        <span class="bnav-icon">🌿</span>קטגוריות
-      </button>
-      <button class="bnav-btn" id="bnav-cart" onclick="viewCart()">
-        <span class="bnav-icon">🛒</span>סל קניות
-      </button>
+      <button class="bnav-btn active" onclick="showView('cats')"><span class="bnav-icon">🌿</span>קטגוריות</button>
+      <button class="bnav-btn" onclick="viewCart()"><span class="bnav-icon">🛒</span>סל קניות</button>
     </div>
-
     <div class="toast" id="toast"></div>
   </div>
 </div>
 
 <script>
+// ── Wikipedia image fetch ──
+// Wikipedia REST API מחזיר JSON עם URL לתמונה הראשית של הדף
+var imgCache = {};
+
+function getWikiImg(pageTitle, callback) {
+  if (imgCache[pageTitle]) { callback(imgCache[pageTitle]); return; }
+  var url = 'https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(pageTitle);
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var img = (data.thumbnail && data.thumbnail.source) ? data.thumbnail.source.replace(/\/\d+px-/, '/500px-') : null;
+      imgCache[pageTitle] = img;
+      callback(img);
+    })
+    .catch(function(){ callback(null); });
+}
+
+function setImgEl(el, pageTitle) {
+  // show spinner
+  el.innerHTML = '<div class="thumb-loading"><div class="thumb-spinner"></div></div>';
+  getWikiImg(pageTitle, function(src) {
+    if (src) {
+      var img = document.createElement('img');
+      img.src = src;
+      img.onerror = function() { el.innerHTML = '<div class="thumb-loading" style="font-size:28px">🌱</div>'; };
+      el.innerHTML = '';
+      el.appendChild(img);
+    } else {
+      el.innerHTML = '<div class="thumb-loading" style="font-size:28px">🌱</div>';
+    }
+  });
+}
+
+function setHeroImg(container, pageTitle) {
+  var nav = container.querySelector('.img-nav');
+  // remove old image
+  Array.from(container.children).forEach(function(c){ if(c !== nav) c.remove(); });
+  // spinner
+  var loader = document.createElement('div');
+  loader.className = 'hero-loading';
+  loader.innerHTML = '<div class="hero-spinner"></div><span>טוען תמונה...</span>';
+  container.insertBefore(loader, nav);
+
+  getWikiImg(pageTitle, function(src){
+    loader.remove();
+    if (src) {
+      var img = document.createElement('img');
+      img.src = src.replace(/\/\d+px-/, '/800px-');
+      img.onerror = function() {
+        var fb = document.createElement('div');
+        fb.style.cssText = 'font-size:80px;';
+        fb.textContent = '🌱';
+        container.insertBefore(fb, nav);
+      };
+      container.insertBefore(img, nav);
+    }
+  });
+}
+
+// ── DATA ──
+// wikiPage = שם דף ויקיפדיה לקבלת תמונה
 var PRODUCTS = {
-  'תבלינים': {
-    emoji: '🌿', items: [
-      { name:'רוזמרין רפואי', price:25, sun:'שמש מלאה', water:'נמוכה',   type:'עץ ועדמה',  desc:'תבלין ירוחני מאמיץ, מצוין לבישול ולמרפסת. עמיד לחום ויובש.', emoji:'🌿', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Rosemary_bush.jpg/400px-Rosemary_bush.jpg' },
-      { name:'נענע',          price:18, sun:'חצי שמש',  water:'גבוהה',   type:'עשבוני',    desc:'עשב ריחני מרענן, מצוין לחליטות ולבישול. גדל מהר.', emoji:'🌱', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Mint-leaves-2007.jpg/400px-Mint-leaves-2007.jpg' },
-      { name:'בזיליקום',      price:15, sun:'שמש מלאה', water:'בינונית', type:'עשבוני',    desc:'תבלין קלאסי לפסטות וסלטים. אוהב חום ושמש.', emoji:'🌿', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Basil-Basilico-Ocimum_basilicum-albahaca.jpg/400px-Basil-Basilico-Ocimum_basilicum-albahaca.jpg' },
-      { name:'אורגנו',        price:20, sun:'שמש מלאה', water:'נמוכה',   type:'עשבוני',    desc:'תבלין ים-תיכוני עמיד ומשובח. מצוין לפיצה ותבשילים.', emoji:'🌿', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Origanum_vulgare_-_harilik_pune.jpg/400px-Origanum_vulgare_-_harilik_pune.jpg' },
-      { name:'מרווה',         price:22, sun:'שמש מלאה', water:'נמוכה',   type:'עץ ועדמה',  desc:'צמח ריחני בעל עלים קטיפתיים. מדיצינלי ולבישול.', emoji:'🌿', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Salvia_officinalis_0002.JPG/400px-Salvia_officinalis_0002.JPG' }
-    ]
-  },
-  'צמחי חוץ': {
-    emoji: '🌳', items: [
-      { name:'לבנדר',      price:35, sun:'שמש מלאה', water:'נמוכה',   type:'שיח',    desc:'צמח ריחני עמיד בצבע סגול קסום. מושך פרפרים ודבורים.', emoji:'💜', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Tuscany.jpg/400px-Above_Tuscany.jpg' },
-      { name:'גרניום',     price:28, sun:'חצי שמש',  water:'בינונית', type:'עשבוני', desc:'פורח בצבעים עשירים, מצוין לעציצים ומרפסות.', emoji:'🌸', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Pelargonium_zonale0.jpg/400px-Pelargonium_zonale0.jpg' },
-      { name:'יסמין',      price:45, sun:'שמש מלאה', water:'בינונית', type:'מטפס',   desc:'מטפס ריחני עם פריחה לבנה מדהימה בקיץ.', emoji:'🌸', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Jasminum_sambac_1.jpg/400px-Jasminum_sambac_1.jpg' },
-      { name:'בוגנוויליה', price:60, sun:'שמש מלאה', water:'נמוכה',   type:'מטפס',   desc:'מטפס צבעוני עמיד חום מושלם לגדרות ומרפסות.', emoji:'🌺', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Bougainvillea_glabra.jpg/400px-Bougainvillea_glabra.jpg' }
-    ]
-  },
-  'צמחי פנים': {
-    emoji: '🍃', items: [
-      { name:'מונסטרה',   price:85,  sun:'אור עקיף', water:'בינונית', type:'עלים', desc:'צמח טרופי עם עלים מנוקבים מרשימים.', emoji:'🍃', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Monstera_deliciosa_aka_Swiss_cheese_plant.jpg/400px-Monstera_deliciosa_aka_Swiss_cheese_plant.jpg' },
-      { name:'פוטוס',     price:35,  sun:'אור עקיף', water:'נמוכה',   type:'מטפס', desc:'הצמח הכי קל לגידול! עמיד ומטהר אוויר.', emoji:'🌿', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Pothos_piper.jpg/400px-Pothos_piper.jpg' },
-      { name:'פיקוס',     price:120, sun:'אור עקיף', water:'בינונית', type:'עץ',   desc:'עץ פנים אלגנטי עם עלים מבריקים.', emoji:'🌳', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Ficus_benjamina2.jpg/400px-Ficus_benjamina2.jpg' },
-      { name:'ספתיפילום', price:55,  sun:'צל חלקי',  water:'גבוהה',   type:'עלים', desc:'צמח פנים עם פריחה לבנה יפהפייה. מטהר אוויר מצוין.', emoji:'🌸', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Spathiphyllum_cochlearispathum_RTBG.jpg/400px-Spathiphyllum_cochlearispathum_RTBG.jpg' }
-    ]
-  },
-  'קק"טוסים': {
-    emoji: '🌵', items: [
-      { name:'אלוורה',      price:30, sun:'שמש מלאה', water:'נמוכה', type:'רב-שנתי', desc:'צמח מרפא מוכח. אידיאלי למתחילים ולחום.', emoji:'🌵', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.png/400px-Aloe_vera_flower_inset.png' },
-      { name:'קקטוס כדורי', price:25, sun:'שמש מלאה', water:'נמוכה', type:'כד',      desc:'קקטוס קומפקטי בעל צורה כדורית יפה. כמעט ללא טיפול.', emoji:'🌵', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Echinocactus_grusonii_Missourt_BG.jpg/400px-Echinocactus_grusonii_Missourt_BG.jpg' },
-      { name:'אגבה',        price:70, sun:'שמש מלאה', water:'נמוכה', type:'ענקי',    desc:'צמח מדברי עם עלים חדים מרשימים. עמיד מאוד.', emoji:'🌵', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Blue_Agave_Landscape.jpg/400px-Blue_Agave_Landscape.jpg' }
-    ]
-  },
-  'סוקולנטים': {
-    emoji: '🌸', items: [
-      { name:'אכוורייה',  price:20, sun:'שמש מלאה', water:'נמוכה', type:'כד',   desc:'סוקולנט קטן ויפה עם עלים שמנים בצורת ורד.', emoji:'🌸', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Echeveria_-_Flickr_-_Stiller_Beobachter.jpg/400px-Echeveria_-_Flickr_-_Stiller_Beobachter.jpg' },
-      { name:'הוורתיה',   price:35, sun:'אור עקיף', water:'נמוכה', type:'כד',   desc:'סוקולנט פנים מושלם עם פסים לבנים מיוחדים.', emoji:'🌵', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Haworthia_attenuata2.jpg/400px-Haworthia_attenuata2.jpg' },
-      { name:'סנסוויריה', price:55, sun:'כל אור',   water:'נמוכה', type:'עלים', desc:'מכונה "לשון חמות" – עמיד להזנחה ומטהר אוויר.', emoji:'🌿', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg/400px-Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg' }
-    ]
-  },
-  'שיחים': {
-    emoji: '🌹', items: [
-      { name:'ורד',            price:75, sun:'שמש מלאה', water:'גבוהה',   type:'שיח פורח', desc:'מלך הפרחים בצבעים עשירים ובושם מענג. דורש טיפול.', emoji:'🌹', img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Rose_pruning_15.jpg/400px-Rose_pruning_15.jpg' },
-      { name:'אורנמנטלי ירוק', price:45, sun:'חצי שמש',  water:'בינונית', type:'שיח ירוק', desc:'שיח ירוק לאורך השנה, מצוין לגידור ועיצוב גינה.', emoji:'🌳', img:'' }
-    ]
-  },
-  'כלי קיבול': {
-    emoji: '🏺', items: [
-      { name:'עציץ חרס',         price:45, sun:null, water:null, type:'בינוני', desc:'עציץ חרס קלאסי עם נקב ניקוז. מתאים לרוב הצמחים.', emoji:'🏺', img:'' },
-      { name:'עציץ פלסטיק שחור', price:15, sun:null, water:null, type:'קטן',   desc:'עציץ קל ועמיד, מגיע במגוון גדלים.', emoji:'🪴', img:'' },
-      { name:'אדנית מלבנית',     price:90, sun:null, water:null, type:'גדול',  desc:'אדנית גדולה לשיחים ועצים. עמידה לתנאי חוץ.', emoji:'📦', img:'' }
-    ]
-  }
+  'תבלינים': { wikiPage:'Rosemary', items:[
+    { name:'רוזמרין רפואי', price:25, sun:'שמש מלאה', water:'נמוכה',   type:'עץ ועדמה', desc:'תבלין ירוחני מאמיץ, מצוין לבישול ולמרפסת. עמיד לחום ויובש.',       wikiPage:'Rosemary' },
+    { name:'נענע',          price:18, sun:'חצי שמש',  water:'גבוהה',   type:'עשבוני',  desc:'עשב ריחני מרענן, מצוין לחליטות ולבישול. גדל מהר.',                 wikiPage:'Mentha' },
+    { name:'בזיליקום',      price:15, sun:'שמש מלאה', water:'בינונית', type:'עשבוני',  desc:'תבלין קלאסי לפסטות וסלטים. אוהב חום ושמש.',                         wikiPage:'Basil' },
+    { name:'אורגנו',        price:20, sun:'שמש מלאה', water:'נמוכה',   type:'עשבוני',  desc:'תבלין ים-תיכוני עמיד ומשובח. מצוין לפיצה ותבשילים.',               wikiPage:'Oregano' },
+    { name:'מרווה',         price:22, sun:'שמש מלאה', water:'נמוכה',   type:'עץ ועדמה', desc:'צמח ריחני בעל עלים קטיפתיים. מדיצינלי ולבישול.',                  wikiPage:'Salvia officinalis' }
+  ]},
+  'צמחי חוץ': { wikiPage:'Lavandula', items:[
+    { name:'לבנדר',      price:35, sun:'שמש מלאה', water:'נמוכה',   type:'שיח',    desc:'צמח ריחני עמיד בצבע סגול קסום. מושך פרפרים ודבורים.',  wikiPage:'Lavandula' },
+    { name:'גרניום',     price:28, sun:'חצי שמש',  water:'בינונית', type:'עשבוני', desc:'פורח בצבעים עשירים, מצוין לעציצים ומרפסות.',            wikiPage:'Pelargonium' },
+    { name:'יסמין',      price:45, sun:'שמש מלאה', water:'בינונית', type:'מטפס',   desc:'מטפס ריחני עם פריחה לבנה מדהימה בקיץ.',                 wikiPage:'Jasmine' },
+    { name:'בוגנוויליה', price:60, sun:'שמש מלאה', water:'נמוכה',   type:'מטפס',   desc:'מטפס צבעוני עמיד חום מושלם לגדרות ומרפסות.',            wikiPage:'Bougainvillea' }
+  ]},
+  'צמחי פנים': { wikiPage:'Monstera deliciosa', items:[
+    { name:'מונסטרה',   price:85,  sun:'אור עקיף', water:'בינונית', type:'עלים', desc:'צמח טרופי עם עלים מנוקבים מרשימים.',              wikiPage:'Monstera deliciosa' },
+    { name:'פוטוס',     price:35,  sun:'אור עקיף', water:'נמוכה',   type:'מטפס', desc:'הצמח הכי קל לגידול! עמיד ומטהר אוויר.',            wikiPage:'Epipremnum aureum' },
+    { name:'פיקוס',     price:120, sun:'אור עקיף', water:'בינונית', type:'עץ',   desc:'עץ פנים אלגנטי עם עלים מבריקים.',                   wikiPage:'Ficus benjamina' },
+    { name:'ספתיפילום', price:55,  sun:'צל חלקי',  water:'גבוהה',   type:'עלים', desc:'צמח פנים עם פריחה לבנה יפהפייה. מטהר אוויר מצוין.', wikiPage:'Spathiphyllum' }
+  ]},
+  'קק"טוסים': { wikiPage:'Aloe vera', items:[
+    { name:'אלוורה',      price:30, sun:'שמש מלאה', water:'נמוכה', type:'רב-שנתי', desc:'צמח מרפא מוכח. אידיאלי למתחילים ולחום.',          wikiPage:'Aloe vera' },
+    { name:'קקטוס כדורי', price:25, sun:'שמש מלאה', water:'נמוכה', type:'כד',      desc:'קקטוס קומפקטי בעל צורה כדורית. כמעט ללא טיפול.',  wikiPage:'Echinocactus grusonii' },
+    { name:'אגבה',        price:70, sun:'שמש מלאה', water:'נמוכה', type:'ענקי',    desc:'צמח מדברי עם עלים חדים מרשימים. עמיד מאוד.',       wikiPage:'Agave americana' }
+  ]},
+  'סוקולנטים': { wikiPage:'Echeveria', items:[
+    { name:'אכוורייה',  price:20, sun:'שמש מלאה', water:'נמוכה', type:'כד',   desc:'סוקולנט קטן ויפה עם עלים שמנים בצורת ורד.',           wikiPage:'Echeveria' },
+    { name:'הוורתיה',   price:35, sun:'אור עקיף', water:'נמוכה', type:'כד',   desc:'סוקולנט פנים מושלם עם פסים לבנים מיוחדים.',           wikiPage:'Haworthia' },
+    { name:'סנסוויריה', price:55, sun:'כל אור',   water:'נמוכה', type:'עלים', desc:'מכונה "לשון חמות" – עמיד להזנחה ומטהר אוויר.',       wikiPage:'Sansevieria trifasciata' }
+  ]},
+  'שיחים': { wikiPage:'Rose', items:[
+    { name:'ורד',            price:75, sun:'שמש מלאה', water:'גבוהה',   type:'שיח פורח', desc:'מלך הפרחים בצבעים עשירים ובושם מענג. דורש טיפול.',   wikiPage:'Rose' },
+    { name:'אורנמנטלי ירוק', price:45, sun:'חצי שמש',  water:'בינונית', type:'שיח ירוק', desc:'שיח ירוק לאורך השנה, מצוין לגידור ועיצוב גינה.',     wikiPage:'Buxus sempervirens' }
+  ]},
+  'כלי קיבול': { wikiPage:'Terracotta', items:[
+    { name:'עציץ חרס',         price:45, sun:null, water:null, type:'בינוני', desc:'עציץ חרס קלאסי עם נקב ניקוז. מתאים לרוב הצמחים.',  wikiPage:'Terracotta' },
+    { name:'עציץ פלסטיק שחור', price:15, sun:null, water:null, type:'קטן',   desc:'עציץ קל ועמיד, מגיע במגוון גדלים.',                 wikiPage:'Flowerpot' },
+    { name:'אדנית מלבנית',     price:90, sun:null, water:null, type:'גדול',  desc:'אדנית גדולה לשיחים ועצים. עמידה לתנאי חוץ.',       wikiPage:'Planter_(gardening)' }
+  ]}
 };
 
 var cats = Object.keys(PRODUCTS);
 var currentCat = null;
-var currentIdx = 0;
+var currentIdx  = 0;
 var cart = [];
 
-// ── BUILD CATEGORY LIST ──
+// ── BUILD CATS ──
 cats.forEach(function(cat) {
-  var data = PRODUCTS[cat];
+  var d  = PRODUCTS[cat];
   var el = document.createElement('div');
   el.className = 'cat-item';
-  el.innerHTML =
-    '<div class="cat-item-left">' +
-      '<span class="cat-emoji">' + data.emoji + '</span>' +
-      '<div class="cat-info-text">' +
-        '<div class="cat-name">' + cat + '</div>' +
-        '<div class="cat-count">' + data.items.length + ' מוצרים</div>' +
-      '</div>' +
-    '</div>' +
-    '<span class="cat-arrow">&#8249;</span>';
-  el.addEventListener('click', function() { openCat(cat); });
+
+  var thumbWrap = document.createElement('div');
+  thumbWrap.className = 'cat-thumb';
+  setImgEl(thumbWrap, d.wikiPage);
+
+  var txt = document.createElement('div');
+  txt.className = 'cat-text';
+  txt.innerHTML = '<div class="cat-name">' + cat + '</div><div class="cat-count">' + d.items.length + ' מוצרים</div>';
+
+  var arr = document.createElement('span');
+  arr.className = 'cat-arrow';
+  arr.innerHTML = '&#8249;';
+
+  el.appendChild(thumbWrap);
+  el.appendChild(txt);
+  el.appendChild(arr);
+  el.addEventListener('click', function(){ openCat(cat); });
   document.getElementById('catScroll').appendChild(el);
 });
 
@@ -576,95 +302,75 @@ function openCat(cat) {
   document.getElementById('prodListTitle').textContent = cat;
   var scroll = document.getElementById('prodScroll');
   scroll.innerHTML = '';
+
   PRODUCTS[cat].items.forEach(function(p, idx) {
     var el = document.createElement('div');
     el.className = 'prod-item';
-    var thumbHtml = p.img
-      ? '<div class="prod-thumb"><img src="' + p.img + '" onerror="this.parentNode.innerHTML=\'' + p.emoji + '\'"></div>'
-      : '<div class="prod-thumb">' + p.emoji + '</div>';
-    var attrsShort = [p.sun, p.water].filter(Boolean).join(' · ');
-    el.innerHTML =
-      thumbHtml +
-      '<div class="prod-item-info">' +
-        '<div class="prod-item-name">' + p.name + '</div>' +
-        '<div class="prod-item-attrs">' + attrsShort + '</div>' +
-      '</div>' +
-      '<div class="prod-item-price">₪' + p.price + '</div>';
-    (function(i) {
-      el.addEventListener('click', function() { openProduct(i); });
-    })(idx);
+
+    var thumbWrap = document.createElement('div');
+    thumbWrap.className = 'prod-thumb';
+    setImgEl(thumbWrap, p.wikiPage);
+
+    var sub  = [p.sun, p.water].filter(Boolean).join(' · ');
+    var info = document.createElement('div');
+    info.className = 'prod-info';
+    info.innerHTML = '<div class="prod-name">' + p.name + '</div><div class="prod-sub">' + sub + '</div>';
+
+    var pr = document.createElement('div');
+    pr.className = 'prod-price';
+    pr.textContent = '₪' + p.price;
+
+    el.appendChild(thumbWrap);
+    el.appendChild(info);
+    el.appendChild(pr);
+    (function(i){ el.addEventListener('click', function(){ openProduct(i); }); })(idx);
     scroll.appendChild(el);
   });
   showView('prods');
 }
 
-function openProduct(idx) {
-  currentIdx = idx;
-  renderDetail();
-  showView('detail');
-}
+function openProduct(idx) { currentIdx = idx; renderDetail(); showView('detail'); }
 
 function renderDetail() {
   var list = PRODUCTS[currentCat].items;
-  var p = list[currentIdx];
-
+  var p    = list[currentIdx];
   document.getElementById('detailBackTitle').textContent = currentCat;
 
-  // Image
-  var img = document.getElementById('detailImg');
-  var emojiEl = document.getElementById('detailEmoji');
-  if (p.img) {
-    img.style.display = 'block';
-    emojiEl.style.display = 'none';
-    img.src = p.img;
-    img.onerror = function() {
-      img.style.display = 'none';
-      emojiEl.style.display = 'block';
-      emojiEl.textContent = p.emoji;
-    };
-  } else {
-    img.style.display = 'none';
-    emojiEl.style.display = 'block';
-    emojiEl.textContent = p.emoji;
-  }
+  setHeroImg(document.getElementById('detailHero'), p.wikiPage);
 
-  // Dots
-  var dotsWrap = document.getElementById('dotsWrap');
-  dotsWrap.innerHTML = '';
-  list.forEach(function(_, i) {
+  // dots
+  var dw = document.getElementById('dotsWrap');
+  dw.innerHTML = '';
+  list.forEach(function(_, i){
     var d = document.createElement('div');
     d.className = 'dot' + (i === currentIdx ? ' active' : '');
-    dotsWrap.appendChild(d);
+    dw.appendChild(d);
   });
 
-  document.getElementById('detailName').textContent = p.name;
+  document.getElementById('detailName').textContent  = p.name;
   document.getElementById('detailPrice').textContent = '₪' + p.price;
 
-  var attrs = '';
-  if (p.sun)   attrs += '<div class="d-attr"><span class="d-attr-label">שמש</span><span class="d-attr-val"><span class="d-attr-icon">☀️</span>' + p.sun + '</span></div>';
-  if (p.water) attrs += '<div class="d-attr"><span class="d-attr-label">השקיה</span><span class="d-attr-val"><span class="d-attr-icon">💧</span>' + p.water + '</span></div>';
-  if (p.type)  attrs += '<div class="d-attr"><span class="d-attr-label">סוג</span><span class="d-attr-val"><span class="d-attr-icon">🪴</span>' + p.type + '</span></div>';
-  document.getElementById('detailAttrs').innerHTML = attrs || '<div style="color:#aaa;font-size:14px">אין מאפיינים</div>';
+  var html = '';
+  if (p.sun)   html += '<div class="d-attr"><span class="d-label">שמש</span><span class="d-val">☀️ ' + p.sun + '</span></div>';
+  if (p.water) html += '<div class="d-attr"><span class="d-label">השקיה</span><span class="d-val">💧 ' + p.water + '</span></div>';
+  if (p.type)  html += '<div class="d-attr"><span class="d-label">סוג</span><span class="d-val">🪴 ' + p.type + '</span></div>';
+  document.getElementById('detailAttrs').innerHTML = html || '<div style="color:#aaa;font-size:14px">אין מאפיינים</div>';
   document.getElementById('detailDesc').textContent = p.desc;
 
   document.getElementById('btnPrev').disabled = (currentIdx <= 0);
   document.getElementById('btnNext').disabled = (currentIdx >= list.length - 1);
-
   var btn = document.getElementById('addBtn');
   btn.textContent = 'הוסף לסל';
   btn.classList.remove('added');
 }
 
-// Nav buttons
-document.getElementById('btnPrev').addEventListener('click', function() {
+document.getElementById('btnPrev').addEventListener('click', function(){
   if (currentIdx > 0) { currentIdx--; renderDetail(); }
 });
-document.getElementById('btnNext').addEventListener('click', function() {
+document.getElementById('btnNext').addEventListener('click', function(){
   if (currentIdx < PRODUCTS[currentCat].items.length - 1) { currentIdx++; renderDetail(); }
 });
-
-// Add to cart
-document.getElementById('addBtn').addEventListener('click', function() {
+document.getElementById('addBtn').addEventListener('click', function(){
   var p = PRODUCTS[currentCat].items[currentIdx];
   cart.push(p);
   document.getElementById('cartBadge').textContent = cart.length;
@@ -672,35 +378,25 @@ document.getElementById('addBtn').addEventListener('click', function() {
   btn.textContent = '✓ נוסף לסל!';
   btn.classList.add('added');
   showToast(p.name + ' נוסף לסל');
-  setTimeout(function() {
-    btn.textContent = 'הוסף לסל';
-    btn.classList.remove('added');
-  }, 1800);
+  setTimeout(function(){ btn.textContent = 'הוסף לסל'; btn.classList.remove('added'); }, 1800);
 });
 
 function showView(name) {
-  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
-  if (name === 'cats')   document.getElementById('viewCats').classList.add('active');
-  if (name === 'prods')  document.getElementById('viewProds').classList.add('active');
-  if (name === 'detail') document.getElementById('viewDetail').classList.add('active');
+  var map = { cats:'viewCats', prods:'viewProds', detail:'viewDetail' };
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById(map[name]).classList.add('active');
 }
-
-function goBack(to) {
-  showView(to);
-}
-
 function viewCart() {
-  if (cart.length === 0) { showToast('הסל ריק'); return; }
-  var lines = cart.map(function(p) { return p.name + ' – ₪' + p.price; });
-  var total = cart.reduce(function(s, p) { return s + p.price; }, 0);
-  alert('🛒 הסל שלך:\n\n' + lines.join('\n') + '\n\nסה"כ: ₪' + total);
+  if (!cart.length) { showToast('הסל ריק'); return; }
+  var lines = cart.map(function(p){ return p.name+' – ₪'+p.price; });
+  var total = cart.reduce(function(s,p){ return s+p.price; },0);
+  alert('🛒 הסל שלך:\n\n'+lines.join('\n')+'\n\nסה"כ: ₪'+total);
 }
-
 function showToast(msg) {
   var el = document.getElementById('toast');
   el.textContent = '✓ ' + msg;
   el.classList.add('show');
-  setTimeout(function() { el.classList.remove('show'); }, 2000);
+  setTimeout(function(){ el.classList.remove('show'); }, 2000);
 }
 </script>
 </body>
