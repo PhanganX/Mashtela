@@ -51,8 +51,7 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 .topbar-text { display:flex; flex-direction:column; line-height:1.1; }
 .topbar-main { font-size:18px; font-weight:900; color:var(--green-dark); }
 .topbar-sub { font-size:12px; font-weight:700; color:#6a8a6a; }
-.topbar-logo { width:48px; height:48px; object-fit:cover; object-position:center 60%; border-radius:50%; background:#e9efe9; padding:4px; }
-.topbar-logo { width:36px; height:36px; object-fit:contain; }
+.topbar-logo { width:44px; height:44px; object-fit:cover; border-radius:50%; background:#e9efe9; padding:4px; }
 .cart-btn { position:relative; background:none; border:none; font-size:24px; cursor:pointer; line-height:1; }
 .cart-badge {
   position:absolute; top:-5px; left:-7px;
@@ -223,18 +222,20 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 .detail-add-btn {
   flex:0 0 auto;
   width:100%;
-  padding:11px;
-  background:var(--green);
-  color:#fff;
-  border:none;
-  border-radius:var(--radius);
+  padding:9px;
+  background:#e9efe9;
+  color:var(--green-dark);
+  border:1px solid #d6e2d6;
+  border-radius:10px;
   font-family:'Heebo',sans-serif;
-  font-size:15px;
-  font-weight:800;
+  font-size:14px;
+  font-weight:700;
   cursor:pointer;
-  box-shadow:0 3px 10px rgba(58,140,58,.25);
+  box-shadow:none;
   transition:background .15s;
 }
+.detail-add-btn:hover { background:#dfe9df; }
+.nav-btn-link { text-align:center; text-decoration:none; display:block; margin-bottom:2px; }
 .detail-add-btn:active { transform:scale(.98); }
 .detail-add-btn.added { background:#5aaa5a; }
 
@@ -335,7 +336,10 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
       <div class="detail-wrap">
         <div class="detail-desc" style="flex:0 0 auto;">
           <div>
-            <div style="font-weight:900;font-size:18px;color:#2a6a2a;margin-bottom:8px;">צמח צדק 🌿</div>
+            <div style="display:flex;align-items:center;gap:8px;font-weight:900;font-size:18px;color:#2a6a2a;margin-bottom:8px;">
+              <img src="logo.png" class="topbar-logo" style="width:28px;height:28px;padding:2px;" onerror="this.style.display='none'">
+              <span>הצמח צדק</span>
+            </div>
             חקלאות לגוף ולנפש.
             משתלה קהילתית בנתניה המתמחה בצמחי פנים, חוץ, תבלינים וסוקולנטים.
             יחס אישי, ייעוץ מקצועי ואהבה לאדמה.
@@ -352,12 +356,12 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
           </div>
           <div class="attr-row">
             <span class="attr-lbl">📞 טלפון</span>
-            <span class="attr-val"><a href="tel:0525736957" style="color:inherit;text-decoration:none;direction:ltr;unicode-bidi:bidi-override;">052-5736957</a></span>
+            <span class="attr-val"><a href="tel:0525736957" style="color:inherit;text-decoration:none;direction:ltr;unicode-bidi:bidi-override;">0525736957</a></span>
           </div>
         </div>
-        <a href="https://share.google/vPb7HBG5BZ1aA7srs" target="_blank" class="detail-add-btn" style="text-align:center;text-decoration:none;display:block;margin-bottom:10px;">ניווט ב‑Google Maps</a>
-        <a href="https://waze.com/ul?q=הגדוד%20העברי%2051%20נתניה" target="_blank" class="detail-add-btn" style="text-align:center;text-decoration:none;display:block;margin-bottom:10px;background:#33cc66;">ניווט ב‑Waze</a>
-        <a href="https://wa.me/972525736957" target="_blank" class="detail-add-btn" style="text-align:center;text-decoration:none;display:block;background:#25D366;">שלח הודעה ב‑WhatsApp</a>
+        <a href="https://maps.app.goo.gl/KdwtbjafXLbZwPEn7" target="_blank" class="detail-add-btn nav-btn-link">ניווט ב‑Google Maps</a>
+                <a href="https://wa.me/972525736957" target="_blank" class="detail-add-btn nav-btn-link">שלח הודעה ב‑WhatsApp</a>
+        <a href="https://share.google/vPb7HBG5BZ1aA7srs" target="_blank" class="detail-add-btn nav-btn-link" >דף העסק (Google)</a>
       </div>
     </div>
 
