@@ -12,7 +12,7 @@
   --orange:#e07010; --text:#1a2e1a; --white:#fff;
   --radius:14px;
 }
-body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overflow:hidden; }
+body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 
 /* ── LAYOUT WRAPPER ── */
 .frame {
@@ -221,11 +221,18 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
 
 /* Add button */
 .detail-add-btn {
-  flex:0 0 auto; width:100%; padding:14px;
-  background:var(--green); color:#fff; border:none;
-  border-radius:var(--radius); font-family:'Heebo',sans-serif;
-  font-size:18px; font-weight:900; cursor:pointer;
-  box-shadow:0 4px 14px rgba(58,140,58,.3);
+  flex:0 0 auto;
+  width:100%;
+  padding:11px;
+  background:var(--green);
+  color:#fff;
+  border:none;
+  border-radius:var(--radius);
+  font-family:'Heebo',sans-serif;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(58,140,58,.25);
   transition:background .15s;
 }
 .detail-add-btn:active { transform:scale(.98); }
@@ -341,11 +348,11 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
           </div>
           <div class="attr-row">
             <span class="attr-lbl">🕒 שעות פעילות</span>
-            <span class="attr-val">א'-ה' 08:00–16:00 | ו' 08:00–14:00</span>
+            <span class="attr-val">א'-ה' 08:00–16:00<br>ו' 08:00–14:00</span>
           </div>
           <div class="attr-row">
             <span class="attr-lbl">📞 טלפון</span>
-            <span class="attr-val"><a href="tel:0525736957" style="color:inherit;text-decoration:none;">052‑5736957</a></span>
+            <span class="attr-val"><a href="tel:0525736957" style="color:inherit;text-decoration:none;direction:ltr;unicode-bidi:bidi-override;">052-5736957</a></span>
           </div>
         </div>
         <a href="https://share.google/vPb7HBG5BZ1aA7srs" target="_blank" class="detail-add-btn" style="text-align:center;text-decoration:none;display:block;margin-bottom:10px;">ניווט ב‑Google Maps</a>
