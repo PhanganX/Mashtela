@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>המשתלה - קטלוג צמחים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green-dark: #2d6a2d;
+  --green-mid: #4a9e4a;
+  --green-light: #7bc67b;
+  --green-pale: #e8f5e8;
+  --orange: #e8680a;
+  --gray-bg: #f0f2f0;
+  --sidebar-bg: #e2e6e2;
+  --text-dark: #1a2e1a;
+}
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--gray-bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  width: 100%;
+  max-width: 960px;
+  min-height: 560px;
+  display: flex;
+  overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 190px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-logo {
+  background: var(--green-dark);
+  color: #fff;
+  padding: 18px 14px;
+  font-size: 17px;
+  font-weight: 900;
+  text-align: center;
+}
+.cat-btn {
+  padding: 15px 18px;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  background: transparent;
+  font-family: 'Heebo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: right;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.cat-btn:hover { background: #d0d4d0; }
+.cat-btn.active { background: var(--green-dark); color: #fff; }
+.sidebar-cart { margin-top: auto; padding: 14px; border-top: 1px solid rgba(0,0,0,0.1); }
+.cart-btn {
+  width: 100%;
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 11px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.cart-btn:hover { background: #c85a08; }
+.cart-badge {
+  background: #fff;
+  color: var(--orange);
+  border-radius: 50%;
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 900;
+}
+
+/* MAIN GRID */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.cat-title {
+  padding: 20px 22px 6px;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--green-dark);
+  border-bottom: 2px solid var(--green-pale);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  padding: 18px 22px;
+  overflow-y: auto;
+}
+.product-card {
+  border: 2px solid #e4eae4;
+  border-radius: 16px;
+  padding: 14px 10px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  background: #fff;
+}
+.product-card:hover {
+  border-color: var(--green-mid);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(45,106,45,0.15);
+}
+.card-emoji { font-size: 52px; margin-bottom: 6px; display: block; }
+.card-name { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.card-price { font-size: 15px; font-weight: 900; color: var(--orange); }
+
+/* MODAL */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: 22px;
+  width: 640px;
+  max-width: 92vw;
+  max-height: 88vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: popIn 0.22s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.modal-body {
+  display: flex;
+  gap: 22px;
+  padding: 28px 26px 18px;
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+}
+.close-btn {
+  position: absolute;
+  top: 12px; left: 12px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.08);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.close-btn:hover { background: rgba(0,0,0,0.16); }
+.modal-img {
+  flex-shrink: 0;
+  width: 190px; height: 190px;
+  background: var(--green-pale);
+  border-radius: 18px;
+  border: 2px solid #d0ebd0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 90px;
+}
+.modal-info { flex: 1; min-width: 0; }
+.modal-name { font-size: 26px; font-weight: 900; color: var(--green-dark); margin-bottom: 6px; }
+.modal-price { font-size: 28px; font-weight: 900; color: var(--orange); margin-bottom: 16px; }
+.attrs { display: flex; flex-direction: column; gap: 9px; margin-bottom: 14px; }
+.attr { display: flex; align-items: center; justify-content: flex-end; gap: 7px; font-size: 15px; color: #3a5a3a; }
+.attr-icon { font-size: 19px; }
+.attr-label { font-weight: 700; }
+.modal-desc {
+  font-size: 14px; color: #666; line-height: 1.7;
+  background: var(--green-pale);
+  border-radius: 12px; padding: 11px 13px;
+  border-right: 3px solid var(--green-light);
+}
+.modal-footer {
+  display: flex; gap: 10px; align-items: center;
+  padding: 14px 26px 22px;
+  border-top: 1px solid #eee;
+}
+.nav-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  background: #fff;
+  font-size: 17px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.nav-btn:hover:not(:disabled) { border-color: var(--green-mid); background: var(--green-pale); }
+.nav-btn:disabled { opacity: 0.28; cursor: default; }
+.add-btn {
+  flex: 1;
+  padding: 13px;
+  background: var(--green-dark);
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 17px; font-weight: 900;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.add-btn:hover { background: var(--green-mid); }
+.add-btn.added { background: var(--green-mid); }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--green-dark);
+  color: #fff;
+  padding: 11px 22px;
+  border-radius: 40px;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700; font-size: 15px;
+  transition: transform 0.28s ease;
+  z-index: 999; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">🌿 המשתלה</div>
+    <div id="catBtns"></div>
+    <div class="sidebar-cart">
+      <button class="cart-btn" onclick="viewCart()">
+        🛒 סל קניות
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="cat-title" id="catTitle"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="modal-body">
+      <button class="close-btn" id="closeBtn">✕</button>
+      <div class="modal-img" id="modalImg"></div>
+      <div class="modal-info">
+        <div class="modal-name" id="modalName"></div>
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="attrs" id="modalAttrs"></div>
+        <div class="modal-desc" id="modalDesc"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="nav-btn" id="btnPrev">→</button>
+      <button class="add-btn" id="btnAdd">הוסף לסל</button>
+      <button class="nav-btn" id="btnNext">←</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var PRODUCTS = {
+  'תבלינים': [
+    { name:'רוזמרין רפואי', price:25, sun:'שמש מלאה', water:'נמוכה',  type:'עץ ועדמה', desc:'תבלין ירוחני מאמיץ, מצוין לבישול ולמרפסת. עמיד לחום ויובש.', emoji:'🌿' },
+    { name:'נענע',          price:18, sun:'חצי שמש',  water:'גבוהה',  type:'עשבוני',   desc:'עשב ריחני מרענן, מצוין לחליטות ולבישול. גדל מהר.', emoji:'🌱' },
+    { name:'בזיליקום',      price:15, sun:'שמש מלאה', water:'בינונית',type:'עשבוני',   desc:'תבלין קלאסי לפסטות וסלטים. אוהב חום ושמש.', emoji:'🌿' },
+    { name:'אורגנו',        price:20, sun:'שמש מלאה', water:'נמוכה',  type:'עשבוני',   desc:'תבלין ים-תיכוני עמיד ומשובח. מצוין לפיצה ותבשילים.', emoji:'🌿' },
+    { name:'מרווה',         price:22, sun:'שמש מלאה', water:'נמוכה',  type:'עץ ועדמה', desc:'צמח ריחני בעל עלים קטיפתיים. מדיצינלי ולבישול.', emoji:'🌿' }
+  ],
+  'צמחי חוץ': [
+    { name:'לבנדר',      price:35, sun:'שמש מלאה', water:'נמוכה',  type:'שיח',    desc:'צמח ריחני עמיד בצבע סגול קסום. מושך פרפרים ודבורים.', emoji:'💜' },
+    { name:'גרניום',     price:28, sun:'חצי שמש',  water:'בינונית',type:'עשבוני', desc:'פורח בצבעים עשירים, מצוין לעציצים ומרפסות.', emoji:'🌸' },
+    { name:'יסמין',      price:45, sun:'שמש מלאה', water:'בינונית',type:'מטפס',   desc:'מטפס ריחני עם פריחה לבנה מדהימה בקיץ.', emoji:'🌸' },
+    { name:'בוגנוויליה', price:60, sun:'שמש מלאה', water:'נמוכה',  type:'מטפס',   desc:'מטפס צבעוני עמיד חום מושלם לגדרות ומרפסות.', emoji:'🌺' }
+  ],
+  'צמחי פנים': [
+    { name:'מונסטרה',   price:85,  sun:'אור עקיף', water:'בינונית',type:'עלים', desc:'צמח טרופי עם עלים מנוקבים מרשימים. מפנק ויפה.', emoji:'🍃' },
+    { name:'פוטוס',     price:35,  sun:'אור עקיף', water:'נמוכה',  type:'מטפס', desc:'הצמח הכי קל לגידול! עמיד ומטהר אוויר.', emoji:'🌿' },
+    { name:'פיקוס',     price:120, sun:'אור עקיף', water:'בינונית',type:'עץ',   desc:'עץ פנים אלגנטי עם עלים מבריקים. מעניק תחושת טבע.', emoji:'🌳' },
+    { name:'ספתיפילום', price:55,  sun:'צל חלקי',  water:'גבוהה',  type:'עלים', desc:'צמח פנים עם פריחה לבנה יפהפייה. מטהר אוויר מצוין.', emoji:'🌸' }
+  ],
+  'קק"טוסים': [
+    { name:'אלוורה',       price:30, sun:'שמש מלאה', water:'נמוכה', type:'רב-שנתי', desc:'צמח מרפא מוכח. אידיאלי למתחילים ולחום.', emoji:'🌵' },
+    { name:'קקטוס כדורי',  price:25, sun:'שמש מלאה', water:'נמוכה', type:'כד',      desc:'קקטוס קומפקטי בעל צורה כדורית יפה. כמעט ללא טיפול.', emoji:'🌵' },
+    { name:'אגבה',         price:70, sun:'שמש מלאה', water:'נמוכה', type:'ענקי',    desc:'צמח מדברי עם עלים חדים מרשימים. עמיד מאוד.', emoji:'🌵' }
+  ],
+  'סוקולנטים': [
+    { name:'אכוורייה',  price:20, sun:'שמש מלאה', water:'נמוכה', type:'כד',   desc:'סוקולנט קטן ויפה עם עלים שמנים בצורת ורד.', emoji:'🌸' },
+    { name:'הוורתיה',   price:35, sun:'אור עקיף', water:'נמוכה', type:'כד',   desc:'סוקולנט פנים מושלם עם פסים לבנים מיוחדים.', emoji:'🌵' },
+    { name:'סנסוויריה', price:55, sun:'כל אור',   water:'נמוכה', type:'עלים', desc:'מכונה "לשון חמות" – עמיד להזנחה ומטהר אוויר.', emoji:'🌿' }
+  ],
+  'שיחים': [
+    { name:'ורד',             price:75, sun:'שמש מלאה', water:'גבוהה',  type:'שיח פורח', desc:'מלך הפרחים בצבעים עשירים ובושם מענג. דורש טיפול.', emoji:'🌹' },
+    { name:'אורנמנטלי ירוק',  price:45, sun:'חצי שמש',  water:'בינונית',type:'שיח ירוק', desc:'שיח ירוק לאורך השנה, מצוין לגידור ועיצוב גינה.', emoji:'🌳' }
+  ],
+  'כלי קיבול': [
+    { name:'עציץ חרס',         price:45, sun:null, water:null, type:'בינוני', desc:'עציץ חרס קלאסי עם נקב ניקוז. מתאים לרוב הצמחים.', emoji:'🏺' },
+    { name:'עציץ פלסטיק שחור', price:15, sun:null, water:null, type:'קטן',   desc:'עציץ קל ועמיד, מגיע במגוון גדלים.', emoji:'🪴' },
+    { name:'אדנית מלבנית',     price:90, sun:null, water:null, type:'גדול',  desc:'אדנית גדולה לשיחים ועצים. עמידה לתנאי חוץ.', emoji:'📦' }
+  ]
+};
+
+var cats = Object.keys(PRODUCTS);
+var currentCat = cats[0];
+var currentIdx = 0;
+var cart = [];
+
+// Build sidebar buttons
+cats.forEach(function(cat) {
+  var b = document.createElement('button');
+  b.className = 'cat-btn' + (cat === currentCat ? ' active' : '');
+  b.textContent = cat;
+  b.addEventListener('click', function() {
+    currentCat = cat;
+    document.querySelectorAll('.cat-btn').forEach(function(x) {
+      x.classList.toggle('active', x.textContent === cat);
+    });
+    renderGrid();
+  });
+  document.getElementById('catBtns').appendChild(b);
+});
+
+// Modal controls
+document.getElementById('closeBtn').addEventListener('click', closeModal);
+document.getElementById('overlay').addEventListener('click', function(e) {
+  if (e.target === document.getElementById('overlay')) closeModal();
+});
+document.getElementById('modal').addEventListener('click', function(e) {
+  e.stopPropagation();
+});
+document.getElementById('btnPrev').addEventListener('click', function() {
+  if (currentIdx < PRODUCTS[currentCat].length - 1) {
+    currentIdx++;
+    renderModal();
+  }
+});
+document.getElementById('btnNext').addEventListener('click', function() {
+  if (currentIdx > 0) {
+    currentIdx--;
+    renderModal();
+  }
+});
+document.getElementById('btnAdd').addEventListener('click', function() {
+  var p = PRODUCTS[currentCat][currentIdx];
+  cart.push(p);
+  document.getElementById('cartBadge').textContent = cart.length;
+  var btn = document.getElementById('btnAdd');
+  btn.textContent = '✓ נוסף לסל!';
+  btn.classList.add('added');
+  showToast(p.name + ' נוסף לסל');
+  setTimeout(function() {
+    btn.textContent = 'הוסף לסל';
+    btn.classList.remove('added');
+  }, 2000);
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+function renderGrid() {
+  var products = PRODUCTS[currentCat];
+  document.getElementById('catTitle').textContent = currentCat;
+  var grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  products.forEach(function(p, idx) {
+    var card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML =
+      '<span class="card-emoji">' + p.emoji + '</span>' +
+      '<div class="card-name">' + p.name + '</div>' +
+      '<div class="card-price">&#8362;' + p.price + '</div>';
+    (function(i) {
+      card.addEventListener('click', function() {
+        currentIdx = i;
+        renderModal();
+        document.getElementById('overlay').classList.add('open');
+      });
+    })(idx);
+    grid.appendChild(card);
+  });
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+function renderModal() {
+  var products = PRODUCTS[currentCat];
+  var p = products[currentIdx];
+
+  document.getElementById('modalImg').textContent = p.emoji;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = '\u20AA' + p.price;
+
+  var html = '';
+  if (p.sun)   html += '<div class="attr"><span>' + p.sun + '</span><span class="attr-icon">&#9728;&#65039;</span></div>';
+  if (p.water) html += '<div class="attr"><span class="attr-label">השקיה:</span><span>' + p.water + '</span><span class="attr-icon">&#128167;</span></div>';
+  if (p.type)  html += '<div class="attr"><span class="attr-label">סוג:</span><span>' + p.type + '</span><span class="attr-icon">&#129716;</span></div>';
+  document.getElementById('modalAttrs').innerHTML = html;
+  document.getElementById('modalDesc').textContent = p.desc;
+
+  document.getElementById('btnPrev').disabled = (currentIdx >= products.length - 1);
+  document.getElementById('btnNext').disabled = (currentIdx <= 0);
+
+  var btn = document.getElementById('btnAdd');
+  btn.textContent = 'הוסף לסל';
+  btn.classList.remove('added');
+}
+
+function viewCart() {
+  if (cart.length === 0) { showToast('הסל ריק'); return; }
+  var lines = cart.map(function(p) { return p.name + ' \u2013 \u20AA' + p.price; });
+  var total = cart.reduce(function(s, p) { return s + p.price; }, 0);
+  alert('\uD83D\uDED2 הסל שלך:\n\n' + lines.join('\n') + '\n\n\u05E1\u05D4"\u05DB: \u20AA' + total);
+}
+
+function showToast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = '\u2713 ' + msg;
+  el.classList.add('show');
+  setTimeout(function() { el.classList.remove('show'); }, 2200);
+}
+
+// Init
+renderGrid();
+</script>
+</body>
+</html>
