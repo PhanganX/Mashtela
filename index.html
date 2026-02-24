@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>המשתלה</title>
+<title>משתלת הצמח צדק - חקלאות לגוף ולנפש</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -47,7 +47,12 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
   border-bottom:1px solid #e0e8e0;
   flex-shrink:0;
 }
-.topbar-title { font-size:20px; font-weight:900; color:var(--green-dark); letter-spacing:-.3px; }
+.topbar-title { display:flex; align-items:center; gap:12px; }
+.topbar-text { display:flex; flex-direction:column; line-height:1.1; }
+.topbar-main { font-size:18px; font-weight:900; color:var(--green-dark); }
+.topbar-sub { font-size:12px; font-weight:700; color:#6a8a6a; }
+.topbar-logo { width:48px; height:48px; object-fit:cover; object-position:center 60%; border-radius:50%; background:#e9efe9; padding:4px; }
+.topbar-logo { width:36px; height:36px; object-fit:contain; }
 .cart-btn { position:relative; background:none; border:none; font-size:24px; cursor:pointer; line-height:1; }
 .cart-badge {
   position:absolute; top:-5px; left:-7px;
@@ -285,7 +290,14 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
   <div class="screen">
     <!-- TOP BAR -->
     <div class="topbar">
-      <div class="topbar-title">🌿 המשתלה</div>
+      <div class="topbar-title">
+          <img src="logo.png" class="topbar-logo" alt="לוגו" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';">
+          <div id="logoFallback" class="topbar-logo" style="display:none;align-items:center;justify-content:center;font-size:26px;">🪴</div>
+          <div class="topbar-text">
+            <div class="topbar-main">משתלת הצמח צדק</div>
+            <div class="topbar-sub">חקלאות לגוף ולנפש</div>
+          </div>
+        </div>
       <button class="cart-btn" id="cartBtn" onclick="viewCart()">
         🛒<span class="cart-badge" id="cartBadge">0</span>
       </button>
@@ -304,6 +316,42 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
         <div style="width:48px"></div>
       </div>
       <div class="prod-list" id="prodList"></div>
+    </div>
+
+    <!-- VIEW: ABOUT / LOCATION -->
+    <div class="view" id="viewAbout">
+      <div class="back-bar">
+        <button class="back-btn" onclick="showView('cats')">&#8250; חזרה</button>
+        <div class="bar-title">אודות והגעה</div>
+        <div style="width:48px"></div>
+      </div>
+      <div class="detail-wrap">
+        <div class="detail-desc" style="flex:0 0 auto;">
+          <div>
+            <div style="font-weight:900;font-size:18px;color:#2a6a2a;margin-bottom:8px;">צמח צדק 🌿</div>
+            חקלאות לגוף ולנפש.
+            משתלה קהילתית בנתניה המתמחה בצמחי פנים, חוץ, תבלינים וסוקולנטים.
+            יחס אישי, ייעוץ מקצועי ואהבה לאדמה.
+          </div>
+        </div>
+        <div class="detail-attrs" style="gap:10px;">
+          <div class="attr-row">
+            <span class="attr-lbl">📍 כתובת</span>
+            <span class="attr-val">הגדוד העברי 51, נתניה</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-lbl">🕒 שעות פעילות</span>
+            <span class="attr-val">א'-ה' 08:00–16:00 | ו' 08:00–14:00</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-lbl">📞 טלפון</span>
+            <span class="attr-val"><a href="tel:0525736957" style="color:inherit;text-decoration:none;">052‑5736957</a></span>
+          </div>
+        </div>
+        <a href="https://share.google/vPb7HBG5BZ1aA7srs" target="_blank" class="detail-add-btn" style="text-align:center;text-decoration:none;display:block;margin-bottom:10px;">ניווט ב‑Google Maps</a>
+        <a href="https://waze.com/ul?q=הגדוד%20העברי%2051%20נתניה" target="_blank" class="detail-add-btn" style="text-align:center;text-decoration:none;display:block;margin-bottom:10px;background:#33cc66;">ניווט ב‑Waze</a>
+        <a href="https://wa.me/972525736957" target="_blank" class="detail-add-btn" style="text-align:center;text-decoration:none;display:block;background:#25D366;">שלח הודעה ב‑WhatsApp</a>
+      </div>
     </div>
 
     <!-- VIEW: PRODUCT DETAIL -->
@@ -342,6 +390,9 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; height:100dvh; overfl
       </button>
       <button class="bnav" id="bnavCart" onclick="viewCart()">
         <span class="bnav-icon">🛒</span>סל קניות
+      </button>
+      <button class="bnav" onclick="showView('about')">
+        <span class="bnav-icon">📍</span>אודות
       </button>
     </div>
 
@@ -549,7 +600,7 @@ function renderDetail() {
 }
 
 function showView(name) {
-  var map = { cats:'viewCats', prods:'viewProds', detail:'viewDetail' };
+  var map = { cats:'viewCats', prods:'viewProds', detail:'viewDetail', about:'viewAbout' };
   document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
   document.getElementById(map[name]).classList.add('active');
 }
