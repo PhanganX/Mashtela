@@ -139,26 +139,32 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 .prod-price { font-size:18px; font-weight:900; color:var(--orange); flex-shrink:0; }
 
 /* ══════════════════════════════
-   PRODUCT DETAIL — FULL REDESIGN
+   PRODUCT DETAIL — COMPACT MOBILE
 ══════════════════════════════ */
 
 .detail-wrap{
   flex:1;
   display:flex;
   flex-direction:column;
-  gap:24px;
-  padding:24px 20px 32px;
-  overflow:auto;
+  gap:14px;
+  padding:14px 16px 18px;
+  overflow:hidden;
 }
 
 /* IMAGE */
 .detail-img-area{
-  height:240px;
-  border-radius:22px;
+  height:190px;
+  border-radius:18px;
   overflow:hidden;
   position:relative;
-  background:#dfe9df;
-  box-shadow:0 15px 35px rgba(0,0,0,.08);
+  background:#eef5ee;
+  box-shadow:0 8px 20px rgba(0,0,0,.06);
+}
+
+.detail-img-area img{
+  object-fit:contain !important;
+  background:#eef5ee;
+  padding:10px;
 }
 
 .detail-overlay{
@@ -166,19 +172,19 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
   bottom:0;
   right:0;
   left:0;
-  padding:18px;
-  background:linear-gradient(to top, rgba(0,0,0,.65), transparent);
+  padding:12px 14px;
+  background:linear-gradient(to top, rgba(0,0,0,.55), transparent);
 }
 
 .detail-name{
-  font-size:24px;
+  font-size:18px;
   font-weight:900;
   color:#fff;
-  margin-bottom:4px;
+  margin-bottom:2px;
 }
 
 .detail-price{
-  font-size:22px;
+  font-size:18px;
   font-weight:900;
   color:#ffe9a6;
 }
@@ -187,31 +193,29 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 .detail-attrs{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  gap:8px;
 }
 
 .attr-row{
   background:#ffffff;
-  border-radius:18px;
-  padding:16px 14px;
+  border-radius:14px;
+  padding:10px 6px;
   text-align:center;
-  border:none;
-  box-shadow:0 8px 20px rgba(0,0,0,.05);
+  box-shadow:0 4px 10px rgba(0,0,0,.04);
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:6px;
+  gap:4px;
 }
 
 .attr-lbl{
-  font-size:11px;
+  font-size:10px;
   font-weight:700;
   color:#7c9c7c;
-  letter-spacing:.5px;
 }
 
 .attr-val{
-  font-size:15px;
+  font-size:13px;
   font-weight:900;
   color:var(--text);
 }
@@ -219,75 +223,98 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 /* DESCRIPTION */
 .detail-desc{
   background:#ffffff;
-  border-radius:20px;
-  padding:22px;
-  font-size:15px;
-  line-height:1.8;
+  border-radius:16px;
+  padding:14px;
+  font-size:13px;
+  line-height:1.6;
   color:#444;
-  box-shadow:0 12px 30px rgba(0,0,0,.06);
+  box-shadow:0 6px 16px rgba(0,0,0,.05);
+  max-height:90px;
+  overflow:hidden;
 }
 
 /* BUTTON */
 .detail-add-btn{
-  margin-top:6px;
-  padding:16px;
-  font-size:16px;
+  margin-top:4px;
+  padding:12px;
+  font-size:14px;
   font-weight:900;
-  border-radius:22px;
+  border-radius:16px;
   background:linear-gradient(135deg,var(--green),var(--green-dark));
   color:#fff;
   border:none;
-  box-shadow:0 12px 24px rgba(42,106,42,.35);
-  transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow:0 8px 18px rgba(42,106,42,.25);
 }
 
-.detail-add-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 16px 30px rgba(42,106,42,.45);
+/* ABOUT BUTTONS */
+.about-btn{
+  display:block;
+  text-align:center;
+  padding:14px;
+  border-radius:16px;
+  font-weight:800;
+  font-size:14px;
+  text-decoration:none;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:#fff;
+  box-shadow:0 8px 18px rgba(42,106,42,.25);
+  transition:all .15s ease;
 }
 
-.detail-add-btn:active{
-  transform:scale(.97);
+.about-btn.whatsapp{
+  background:linear-gradient(135deg,#25D366,#1ebe5d);
 }
 
-/* RESPONSIVE */
+.about-btn.outline{
+  background:#ffffff;
+  color:var(--green-dark);
+  border:2px solid var(--green-dark);
+  box-shadow:none;
+}
+
+.about-btn:active{
+  transform:scale(.96);
+}
+
 @media(max-width:600px){
   .detail-attrs{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
   }
 }
 
 @media(max-width:420px){
   .detail-attrs{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr 1fr;
   }
 }
 
-/* ── BOTTOM NAV OPTIMIZED ── */
+
+/* ── BOTTOM NAV ALIGNED ── */
 .bottom-nav{
-  height:70px;
+  height:74px;
   background:#ffffff;
   display:flex;
   align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:0 16px calc(env(safe-area-inset-bottom));
-  box-shadow:0 -6px 20px rgba(0,0,0,.08);
+  justify-content:space-between;
+  padding:0 20px calc(env(safe-area-inset-bottom));
+  border-top:1px solid #e6eee6;
 }
 
 .bnav{
   flex:1;
-  height:48px;
+  max-width:160px;
+  height:52px;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:8px;
+  gap:4px;
   border:none;
   background:transparent;
   font-family:'Heebo',sans-serif;
-  font-size:13px;
+  font-size:12px;
   font-weight:800;
-  color:#8fa38f;
+  color:#90a590;
   border-radius:16px;
   transition:all .15s ease;
 }
@@ -302,8 +329,8 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 }
 
 .bnav:active{
-  transform:scale(.96);
-}}
+  transform:scale(.95);
+}
 </style>
 </head>
 <body>
@@ -318,7 +345,7 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
   <div class="screen">
     <!-- TOP BAR -->
     <div class="topbar">
-      <div class="topbar-title">
+      <div class="topbar-title" onclick="showView('cats')" style="cursor:pointer;">
           <img src="logo.png" class="topbar-logo" alt="לוגו" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';">
           <div id="logoFallback" class="topbar-logo" style="display:none;align-items:center;justify-content:center;font-size:26px;">🪴</div>
           <div class="topbar-text">
@@ -379,9 +406,11 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
             <span class="attr-val"><a href="tel:0525736957" style="color:inherit;text-decoration:none;direction:ltr;unicode-bidi:bidi-override;">0525736957</a></span>
           </div>
         </div>
-        <a href="https://maps.app.goo.gl/KdwtbjafXLbZwPEn7" target="_blank" class="detail-add-btn nav-btn-link">ניווט ב‑Google Maps</a>
-                <a href="https://wa.me/972525736957" target="_blank" class="detail-add-btn nav-btn-link">שלח הודעה ב‑WhatsApp</a>
-        <a href="https://share.google/vPb7HBG5BZ1aA7srs" target="_blank" class="detail-add-btn nav-btn-link" >דף העסק (Google)</a>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="https://maps.app.goo.gl/KdwtbjafXLbZwPEn7" target="_blank" class="about-btn">ניווט ב‑Google Maps</a>
+        <a href="https://wa.me/972525736957" target="_blank" class="about-btn whatsapp">שלח הודעה ב‑WhatsApp</a>
+        <a href="https://share.google/vPb7HBG5BZ1aA7srs" target="_blank" class="about-btn outline">דף העסק (Google)</a>
+        </div>
       </div>
     </div>
 
