@@ -229,9 +229,8 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
   line-height:1.6;
   color:#444;
   box-shadow:0 6px 16px rgba(0,0,0,.05);
-  max-height:90px;
-  overflow:hidden;
 }
+
 
 /* BUTTON */
 .detail-add-btn{
@@ -250,16 +249,17 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 .about-btn{
   display:block;
   text-align:center;
-  padding:14px;
-  border-radius:16px;
-  font-weight:800;
-  font-size:14px;
+  padding:11px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:13px;
   text-decoration:none;
-  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  background:var(--green);
   color:#fff;
-  box-shadow:0 8px 18px rgba(42,106,42,.25);
-  transition:all .15s ease;
+  box-shadow:0 4px 10px rgba(42,106,42,.15);
+  transition:all .18s ease;
 }
+
 
 .about-btn.whatsapp{
   background:linear-gradient(135deg,#25D366,#1ebe5d);
@@ -274,7 +274,59 @@ body { font-family:'Heebo',sans-serif; background:#f4f6f4; min-height:100vh; }
 
 .about-btn:active{
   transform:scale(.96);
+  opacity:.9;
 }
+
+/* ARROWS */
+.detail-nav{
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  display:flex;
+  gap:8px;
+}
+
+.nav-btn{
+  width:34px;
+  height:30px;
+  border:none;
+  border-radius:12px;
+  background:rgba(255,255,255,.85);
+  font-weight:900;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.nav-btn:disabled{
+  opacity:.3;
+}
+
+.nav-btn:active:not(:disabled){
+  transform:scale(.9);
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:100px;
+  left:50%;
+  transform:translateX(-50%) translateY(40px);
+  background:var(--green-dark);
+  color:#fff;
+  padding:10px 18px;
+  border-radius:40px;
+  font-weight:800;
+  font-size:13px;
+  opacity:0;
+  transition:all .3s ease;
+}
+
+.toast.show{
+  transform:translateX(-50%) translateY(0);
+  opacity:1;
+}
+
 
 @media(max-width:600px){
   .detail-attrs{
