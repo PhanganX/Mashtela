@@ -3,24 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>משתלת הצמח צדק</title>
+  <title>משתלת הצמח צדק · תפריט ידידותי</title>
+  <meta name="theme-color" content="#5f7f52" />
   <style>
     :root {
-      --bg: #f6f4ed;
-      --surface: rgba(255, 255, 255, 0.82);
-      --surface-strong: rgba(255, 255, 255, 0.96);
-      --text: #1e2a1f;
-      --muted: #617063;
-      --line: rgba(36, 62, 42, 0.1);
-      --primary: #5f7f52;
-      --primary-strong: #46633d;
-      --secondary: #dfe8d4;
-      --accent: #c5a66a;
-      --shadow: 0 20px 50px rgba(30, 42, 31, 0.12);
+      --bg: #f4f6f1;
+      --card: #ffffff;
+      --text: #213125;
+      --muted: #607165;
+      --line: rgba(33, 49, 37, 0.1);
+      --shadow: 0 16px 36px rgba(33, 49, 37, 0.08);
       --radius-xl: 28px;
       --radius-lg: 22px;
       --radius-md: 16px;
       --container: 1180px;
+      --green: #5f7f52;
+      --green-dark: #3f5f39;
+      --chip: #ebf2e4;
     }
 
     * {
@@ -36,703 +35,1347 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Heebo, Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top right, rgba(209, 223, 194, 0.7), transparent 24%),
-        radial-gradient(circle at top left, rgba(197, 166, 106, 0.15), transparent 20%),
-        linear-gradient(180deg, #f7f5ef 0%, #eef3e8 100%);
+        radial-gradient(circle at top right, rgba(195, 221, 188, 0.42), transparent 24%),
+        linear-gradient(180deg, #f7faf4 0%, #eff3ec 100%);
       min-height: 100vh;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
+    button, input {
+      font: inherit;
     }
 
     .container {
-      width: min(var(--container), calc(100% - 32px));
+      width: min(var(--container), calc(100% - 28px));
       margin: 0 auto;
     }
 
     .hero-wrap {
-      padding: 24px 0 12px;
+      padding: 18px 0 14px;
     }
 
     .hero {
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 26%),
+        linear-gradient(135deg, #46633d 0%, #5f7f52 58%, #6e9360 100%);
+      color: white;
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: 0 20px 48px rgba(46, 69, 40, 0.2);
       position: relative;
       overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(70, 99, 61, 0.92), rgba(95, 127, 82, 0.86)),
-        linear-gradient(135deg, #5f7f52, #46633d);
-      color: white;
-      border-radius: 36px;
-      box-shadow: var(--shadow);
-      padding: 28px;
     }
 
-    .hero::before,
     .hero::after {
       content: "";
       position: absolute;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      pointer-events: none;
-    }
-
-    .hero::before {
-      width: 280px;
-      height: 280px;
-      top: -120px;
-      left: -60px;
-    }
-
-    .hero::after {
+      inset: auto -40px -70px auto;
       width: 220px;
       height: 220px;
-      bottom: -120px;
-      right: -70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      filter: blur(2px);
     }
 
-    .hero-grid {
+    .hero-top {
       position: relative;
       z-index: 1;
-      display: grid;
-      grid-template-columns: 1.2fr 0.9fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .brand-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 14px;
-      backdrop-filter: blur(8px);
-      margin-bottom: 18px;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(34px, 6vw, 58px);
-      line-height: 1;
-      letter-spacing: -0.02em;
-    }
-
-    .hero p {
-      margin: 16px 0 0;
-      max-width: 640px;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.9);
-      font-size: 18px;
-    }
-
-    .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 24px;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
-    .btn {
-      appearance: none;
-      border: 0;
-      cursor: pointer;
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
       border-radius: 999px;
-      padding: 14px 18px;
-      font: inherit;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background: white;
-      color: var(--primary-strong);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      font-weight: 700;
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,0.12);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.18);
-      font-weight: 600;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.16);
+      font-size: 14px;
       backdrop-filter: blur(8px);
     }
 
-    .hero-side {
-      display: grid;
-      gap: 14px;
+    .hero h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(32px, 7vw, 56px);
+      line-height: 1;
+      letter-spacing: -0.03em;
     }
 
-    .glass-card {
-      background: rgba(255,255,255,0.13);
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 26px;
-      padding: 18px;
-      backdrop-filter: blur(10px);
-    }
-
-    .glass-card h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
-    }
-
-    .glass-card p {
+    .hero p {
       margin: 0;
-      font-size: 15px;
+      max-width: 720px;
       line-height: 1.7;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.92);
+      font-size: 17px;
     }
 
     .hero-stats {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
+      margin-top: 22px;
     }
 
     .hero-stat {
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.14);
       border: 1px solid rgba(255,255,255,0.14);
       border-radius: 22px;
-      padding: 16px;
+      padding: 15px;
       text-align: center;
+      backdrop-filter: blur(10px);
     }
 
     .hero-stat strong {
       display: block;
       font-size: 24px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .hero-stat span {
       font-size: 13px;
-      color: rgba(255,255,255,0.84);
+      color: rgba(255,255,255,0.85);
     }
 
-    .toolbar-wrap {
+    .controls-wrap {
       position: sticky;
       top: 0;
-      z-index: 20;
-      padding: 16px 0;
+      z-index: 30;
       backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(246,244,237,0.92), rgba(246,244,237,0.72));
+      background: linear-gradient(180deg, rgba(244,246,241,0.95), rgba(244,246,241,0.78));
+      padding: 14px 0 10px;
+      border-bottom: 1px solid rgba(33,49,37,0.04);
     }
 
-    .toolbar {
+    .controls {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: center;
-      background: var(--surface);
-      border: 1px solid var(--line);
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(33,49,37,0.08);
+      box-shadow: var(--shadow);
       border-radius: 24px;
       padding: 14px;
-      box-shadow: 0 12px 30px rgba(30, 42, 31, 0.08);
     }
 
     .search-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 12px 14px;
+      position: relative;
     }
 
     .search-box input {
       width: 100%;
-      border: 0;
-      outline: none;
-      background: transparent;
+      border: 1px solid rgba(33,49,37,0.08);
+      background: #f8fbf6;
       color: var(--text);
-      font: inherit;
-      font-size: 15px;
+      outline: none;
+      border-radius: 16px;
+      padding: 16px 18px;
+      font-size: 16px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .filter-pills {
+    .search-box input:focus {
+      border-color: rgba(70, 99, 61, 0.32);
+      box-shadow: 0 0 0 4px rgba(95, 127, 82, 0.1);
+    }
+
+    .chip-row {
       display: flex;
       gap: 10px;
       overflow-x: auto;
-      padding-bottom: 2px;
+      padding-bottom: 4px;
       scrollbar-width: none;
     }
 
-    .filter-pills::-webkit-scrollbar {
+    .chip-row::-webkit-scrollbar {
       display: none;
     }
 
-    .pill {
-      border: 0;
-      cursor: pointer;
-      white-space: nowrap;
+    .chip {
+      flex: 0 0 auto;
+      border: 1px solid transparent;
+      background: var(--chip);
+      color: var(--green-dark);
       border-radius: 999px;
-      padding: 11px 14px;
-      font: inherit;
-      font-size: 14px;
-      background: #f0f4eb;
-      color: var(--primary-strong);
-      transition: 0.2s ease;
+      padding: 11px 15px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+      font-weight: 600;
     }
 
-    .pill:hover {
+    .chip:hover {
       transform: translateY(-1px);
     }
 
-    .pill.active {
-      background: var(--primary);
+    .chip.active {
+      background: var(--green);
       color: white;
-      box-shadow: 0 10px 22px rgba(95, 127, 82, 0.22);
+      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 8px 24px rgba(70, 99, 61, 0.2);
     }
 
-    main {
-      padding: 8px 0 50px;
+    .highlights-wrap {
+      padding: 12px 0 6px;
     }
 
     .section-head {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: end;
-      gap: 16px;
-      margin: 26px 0 18px;
+      gap: 12px;
+      margin: 0 0 12px;
     }
 
     .section-head h2 {
       margin: 0;
       font-size: clamp(24px, 4vw, 34px);
-      color: var(--text);
     }
 
     .section-head p {
-      margin: 6px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
-      line-height: 1.7;
-      max-width: 720px;
+      line-height: 1.6;
+      font-size: 15px;
     }
 
-    .count-badge {
-      background: var(--secondary);
-      color: var(--primary-strong);
-      border-radius: 999px;
+    .results-badge {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
       padding: 10px 14px;
-      font-size: 14px;
+      border-radius: 999px;
+      background: #edf4e8;
+      color: var(--green-dark);
       font-weight: 700;
-      white-space: nowrap;
+      border: 1px solid rgba(95, 127, 82, 0.14);
     }
 
-    .featured-grid,
-    .cards-grid {
+    .highlights {
       display: grid;
-      gap: 18px;
-    }
-
-    .featured-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin-top: 20px;
+      gap: 14px;
     }
 
     .highlight-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(249,251,246,0.95));
-      border: 1px solid var(--line);
-      border-radius: 26px;
+      background: var(--card);
+      border-radius: 22px;
       padding: 18px;
-      box-shadow: 0 16px 34px rgba(30, 42, 31, 0.08);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
       display: grid;
-      gap: 12px;
-      min-height: 180px;
+      gap: 14px;
     }
 
     .highlight-top {
       display: flex;
       justify-content: space-between;
-      align-items: start;
       gap: 10px;
+      align-items: flex-start;
     }
 
     .mini-tag {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      width: fit-content;
+      gap: 6px;
       border-radius: 999px;
-      padding: 8px 12px;
-      background: #eef4e5;
-      color: var(--primary-strong);
-      font-size: 13px;
+      padding: 8px 10px;
+      font-size: 12px;
       font-weight: 700;
-    }
-
-    .price {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--primary-strong);
-      letter-spacing: -0.02em;
+      background: #eff4ea;
+      color: var(--green-dark);
+      width: fit-content;
     }
 
     .highlight-card h3,
-    .product-card h3 {
+    .product-name {
       margin: 0;
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1.2;
     }
 
-    .highlight-card p,
-    .product-card p,
-    .category-card p,
-    .empty-state p,
-    footer p {
+    .highlight-card p {
       margin: 0;
-      line-height: 1.7;
       color: var(--muted);
+      line-height: 1.6;
     }
 
-    .cards-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin-top: 18px;
+    .price-badge {
+      white-space: nowrap;
+      background: #f0f6eb;
+      color: var(--green-dark);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 800;
+      min-width: 86px;
+      text-align: center;
+    }
+
+    .sections {
+      padding: 10px 0 40px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .category-section {
+      background: var(--card);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      border: 3px solid var(--cat-color, #d9ead0);
+      overflow: hidden;
+      scroll-margin-top: 120px;
+      transition: transform 0.2s ease, box-shadow 0.25s ease;
+    }
+
+    .category-section.targeted {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 44px rgba(33, 49, 37, 0.16);
+    }
+
+    .category-header {
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--cat-color, #d9ead0) 18%, white), white);
+      padding: 18px 18px 12px;
+      border-bottom: 1px solid rgba(33,49,37,0.06);
+    }
+
+    .category-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: clamp(22px, 3.5vw, 28px);
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .category-sub {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .section-body {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
     .product-card {
-      background: var(--surface-strong);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 18px;
-      box-shadow: 0 16px 34px rgba(30, 42, 31, 0.06);
+      border-radius: 20px;
+      border: 1px solid rgba(33,49,37,0.08);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcfa 100%);
+      padding: 14px;
       display: grid;
-      gap: 14px;
-      transition: transform 0.22s ease, box-shadow 0.22s ease;
-      min-height: 210px;
-    }
-
-    .product-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 22px 44px rgba(30, 42, 31, 0.1);
+      gap: 12px;
+      min-height: 100%;
     }
 
     .product-top {
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      align-items: start;
+      align-items: flex-start;
     }
 
-    .emoji-badge {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
+    .emoji {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       display: grid;
       place-items: center;
-      background: #f1f5ec;
-      font-size: 24px;
-      flex-shrink: 0;
+      background: color-mix(in srgb, var(--cat-color, #d9ead0) 18%, white);
+      font-size: 20px;
+      flex: 0 0 auto;
     }
 
-    .product-meta {
+    .product-desc {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .meta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      font-size: 13px;
     }
 
     .meta-chip {
-      background: #f1f4ef;
-      color: var(--primary-strong);
-      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       padding: 8px 10px;
-      font-weight: 600;
+      border-radius: 999px;
+      background: #f3f6f0;
+      color: #4d5d50;
+      font-size: 12px;
+      font-weight: 700;
     }
 
     .product-bottom {
-      margin-top: auto;
       display: flex;
       justify-content: space-between;
       align-items: end;
-      gap: 10px;
+      gap: 12px;
+      margin-top: auto;
     }
 
-    .price-block small {
+    .price-box small {
       display: block;
       color: var(--muted);
       margin-bottom: 4px;
-      font-size: 13px;
+      font-size: 12px;
     }
 
-    .price-block strong {
-      font-size: 28px;
-      color: var(--primary-strong);
+    .price-box strong {
+      font-size: 24px;
       letter-spacing: -0.03em;
+      color: var(--green-dark);
     }
 
-    .ghost-btn {
-      border: 1px solid var(--line);
-      background: #f8faf5;
-      color: var(--text);
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 700;
+    .sort-note {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 2px 4px 0;
     }
 
-    .categories-overview {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 12px;
-    }
-
-    .category-card {
-      background: rgba(255,255,255,0.75);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 18px;
-      box-shadow: 0 10px 24px rgba(30, 42, 31, 0.05);
-    }
-
-    .category-card strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 17px;
-    }
-
-    .empty-state {
+    .empty {
       display: none;
+      background: var(--card);
+      border-radius: 24px;
+      padding: 30px 22px;
+      border: 1px dashed rgba(33,49,37,0.18);
       text-align: center;
-      background: rgba(255,255,255,0.8);
-      border: 1px dashed rgba(95, 127, 82, 0.3);
-      border-radius: 28px;
-      padding: 46px 18px;
-      margin-top: 18px;
+      color: var(--muted);
+      box-shadow: var(--shadow);
     }
 
-    .empty-state.show {
+    .empty.show {
       display: block;
     }
 
-    footer {
-      padding: 10px 0 40px;
+    .footer-space {
+      height: 24px;
     }
 
-    .footer-card {
-      background: rgba(255,255,255,0.72);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 22px;
-      box-shadow: 0 12px 28px rgba(30, 42, 31, 0.05);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .footer-brand {
-      display: grid;
-      gap: 6px;
-    }
-
-    .footer-brand strong {
-      font-size: 18px;
-    }
-
-    .footer-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .footer-pill {
-      background: #eef4e8;
-      color: var(--primary-strong);
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .fade-in {
-      animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 1100px) {
-      .hero-grid,
-      .featured-grid,
-      .cards-grid,
-      .categories-overview {
+    @media (max-width: 920px) {
+      .hero-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .toolbar {
+      .highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .section-body {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 760px) {
+    @media (max-width: 640px) {
+      .container {
+        width: min(var(--container), calc(100% - 18px));
+      }
+
       .hero {
-        padding: 20px;
         border-radius: 28px;
+        padding: 20px;
       }
 
-      .hero-grid,
-      .featured-grid,
-      .cards-grid,
-      .categories-overview,
-      .hero-stats {
-        grid-template-columns: 1fr;
+      .controls {
+        border-radius: 20px;
+        padding: 12px;
       }
 
-      .section-head,
-      .product-bottom,
-      .footer-card {
-        align-items: start;
-        flex-direction: column;
+      .category-section {
+        border-radius: 24px;
       }
 
-      .count-badge {
-        white-space: normal;
+      .category-header {
+        padding: 16px 16px 12px;
       }
 
-      .toolbar-wrap {
-        padding-top: 12px;
+      .section-body {
+        padding: 12px;
+      }
+
+      .product-card {
+        border-radius: 18px;
+      }
+
+      .product-bottom {
+        align-items: center;
       }
     }
   </style>
 </head>
 <body>
-  <div class="hero-wrap">
-    <div class="container">
-      <section class="hero">
-        <div class="hero-grid">
-          <div>
-            <div class="brand-badge">🌿 תפריט דיגיטלי נעים ופשוט</div>
-            <h1>משתלת הצמח צדק</h1>
-            <p>
-              תפריט מוצרים מעוצב ונוח לגלישה עם קטגוריות ברורות חיפוש מהיר ומחירים נגישים
-              חוויית משתמש רגועה ידידותית ונעימה שמתאימה גם לטלפון וגם למחשב
-            </p>
-            <div class="hero-actions">
-              <a href="#menu" class="btn btn-primary">לצפייה בתפריט</a>
-              <a href="#categories" class="btn btn-secondary">לקטגוריות</a>
-            </div>
-          </div>
-
-          <div class="hero-side">
-            <div class="glass-card">
-              <h3>חוויה ירוקה ונקייה</h3>
-              <p>
-                עיצוב רך עם היררכיה ברורה כפתורים גדולים וקריאה קלה כדי שכל לקוח יוכל להבין מהר מה יש ומה המחיר
-              </p>
-            </div>
-
-            <div class="hero-stats">
-              <div class="hero-stat">
-                <strong id="statProducts">0</strong>
-                <span>מוצרים</span>
-              </div>
-              <div class="hero-stat">
-                <strong id="statCategories">0</strong>
-                <span>קטגוריות</span>
-              </div>
-              <div class="hero-stat">
-                <strong>RTL</strong>
-                <span>מותאם לעברית</span>
-              </div>
-            </div>
-          </div>
+  <div class="container hero-wrap">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="brand-pill">🌿 משתלת הצמח צדק · תפריט ידידותי</div>
+          <h1>תפריט ברור נעים ומהיר</h1>
+          <p>
+            גרסה חדשה ונקייה שמבוססת על המוצרים והקטגוריות הקיימים
+            עם חלוקה צבעונית ברורה לכל קטגוריה
+            ומחירים מעוגלים לתצוגה פשוטה ונוחה יותר
+          </p>
         </div>
-      </section>
-    </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <strong id="statProducts">0</strong>
+          <span>מוצרים</span>
+        </div>
+        <div class="hero-stat">
+          <strong id="statCategories">0</strong>
+          <span>קטגוריות</span>
+        </div>
+        <div class="hero-stat">
+          <strong id="statFeatured">0</strong>
+          <span>מומלצים</span>
+        </div>
+        <div class="hero-stat">
+          <strong>RTL</strong>
+          <span>מותאם לעברית</span>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <div class="toolbar-wrap">
+  <div class="controls-wrap">
     <div class="container">
-      <div class="toolbar">
+      <section class="controls">
         <div class="search-box">
-          <span>🔎</span>
-          <input id="searchInput" type="text" placeholder="חיפוש מוצר או קטגוריה" />
+          <input id="searchInput" type="search" placeholder="חיפוש לפי שם מוצר או קטגוריה" />
         </div>
-
-        <div class="filter-pills" id="filterPills"></div>
-      </div>
+        <div class="chip-row" id="categoryChips"></div>
+        <div class="sort-note">לחיצה על קטגוריה תגלול ישר לבלוק שלה באותו דף והמחירים מוצגים כשקלים שלמים</div>
+      </section>
     </div>
   </div>
 
-  <main>
-    <div class="container">
-      <section id="categories">
-        <div class="section-head">
-          <div>
-            <h2>קטגוריות עיקריות</h2>
-            <p>מעבר מהיר בין סוגי הצמחים והמוצרים כדי לעזור ללקוח למצוא בדיוק מה שמתאים לו</p>
-          </div>
-        </div>
-        <div class="categories-overview" id="categoriesOverview"></div>
-      </section>
-
-      <section>
-        <div class="section-head">
-          <div>
-            <h2>מומלצים מהמשתלה</h2>
-            <p>כרטיסים בולטים להצגה יפה בראש התפריט עם מוצרים שיכולים למשוך תשומת לב ולסגור מכירה מהר יותר</p>
-          </div>
-        </div>
-        <div class="featured-grid" id="featuredGrid"></div>
-      </section>
-
-      <section id="menu">
-        <div class="section-head">
-          <div>
-            <h2>התפריט</h2>
-            <p>חפשו לפי שם או עברו בין הקטגוריות כדי לראות את כל המוצרים והמחירים במקום אחד</p>
-          </div>
-          <div class="count-badge" id="resultsCount">0 מוצרים מוצגים</div>
-        </div>
-
-        <div class="cards-grid" id="productsGrid"></div>
-
-        <div class="empty-state" id="emptyState">
-          <h3>לא נמצאו מוצרים</h3>
-          <p>נסו לחפש מילה אחרת או לחזור לכל הקטגוריות</p>
-        </div>
-      </section>
+  <div class="container highlights-wrap">
+    <div class="section-head">
+      <div>
+        <h2>מומלצים מהמשתלה</h2>
+        <p>מוצרים בולטים מתוך הרשימה הקיימת שמופיעים בראש המסך בצורה ברורה ונעימה</p>
+      </div>
+      <div class="results-badge" id="resultsBadge">0 מוצרים</div>
     </div>
-  </main>
+    <section class="highlights" id="featuredGrid"></section>
+  </div>
 
-  <footer>
-    <div class="container">
-      <div class="footer-card">
-        <div class="footer-brand">
-          <strong>משתלת הצמח צדק</strong>
-          <p>אפשר להרחיב מכאן בהמשך להזמנות וואטסאפ עגלת קניות גלריה ומפה</p>
-        </div>
-        <div class="footer-pills">
-          <span class="footer-pill">מותאם למובייל</span>
-          <span class="footer-pill">עיצוב נעים</span>
-          <span class="footer-pill">תפריט ברור</span>
-        </div>
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>כל הקטגוריות</h2>
+        <p>כל קטגוריה מוצגת בבלוק נפרד עם מסגרת צבעונית שונה כדי להקל על ניווט וקריאה</p>
       </div>
     </div>
-  </footer>
+
+    <section class="sections" id="sections"></section>
+
+    <div class="empty" id="emptyState">
+      <h3>לא נמצאו מוצרים</h3>
+      <p>נסה מילה אחרת או חזור לכל הקטגוריות</p>
+    </div>
+
+    <div class="footer-space"></div>
+  </div>
 
   <script>
+    const products = [
+  {
+    "name": "שק אדמה",
+    "price": 50,
+    "unit": "שק",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים במחיר ברור"
+  },
+  {
+    "name": "פורח",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "רקפת",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "צמח בלין",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "ציפור גן עדן",
+    "price": 200,
+    "unit": "יחידה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "מארז צמחים בקערה",
+    "price": 150,
+    "unit": "יחידה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "כלי בטון עם סוקולנטים וחיפוי",
+    "price": 120,
+    "unit": "יחידת מכירה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "עציצים לעסק עם יוטה",
+    "price": 760,
+    "unit": "יחידת מכירה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "אדמה",
+    "price": 60,
+    "unit": "יחידת מכירה",
+    "category": "מוצרים קיימים",
+    "description": "מוצר קיים מהמחירון הפנימי"
+  },
+  {
+    "name": "סוקולנט קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "סוקולנט בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "סוקולנט גדול",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "אכבריה",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "הוורתיה",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "קרסולה",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "קלנכואה",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "אלוורה קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "אלוורה בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "אלוורה גדול",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "קקטוס קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "קקטוס בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "קקטוס גדול",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "צורית נשפכת",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "סוקולנטים וקקטוסים",
+    "description": "קטגוריית סוקולנטים וקקטוסים"
+  },
+  {
+    "name": "סנסיווריה קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "סנסיווריה בינוני",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "סנסיווריה גדול",
+    "price": 80,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "מונסטרה קטנה",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "מונסטרה בינונית",
+    "price": 70,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "מונסטרה גדולה",
+    "price": 110,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "סינגוניום קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "סינגוניום בינוני",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "סינגוניום גדול",
+    "price": 60,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פוטוס קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פוטוס בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פוטוס גדול",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "זמיוקולקס קטן",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "זמיוקולקס בינוני",
+    "price": 60,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "זמיוקולקס גדול",
+    "price": 100,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דרצנה קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דרצנה בינוני",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דרצנה גדול",
+    "price": 80,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דקל קטן",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דקל בינוני",
+    "price": 70,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דקל גדול",
+    "price": 120,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "כלורופיטום",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "ספטיפיליום קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "ספטיפיליום בינוני",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "ספטיפיליום גדול",
+    "price": 80,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "אנטוריום קטן",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "אנטוריום בינוני",
+    "price": 60,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "אנטוריום גדול",
+    "price": 90,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פפרומיה קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פפרומיה בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פפרומיה גדול",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פילודנדרון קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פילודנדרון בינוני",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "פילודנדרון גדול",
+    "price": 80,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דיפנבכיה קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דיפנבכיה בינוני",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "דיפנבכיה גדול",
+    "price": 70,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "אגלאונמה קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "אגלאונמה בינוני",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "אגלאונמה גדול",
+    "price": 80,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "קרוטון קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "קרוטון בינוני",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "קרוטון גדול",
+    "price": 70,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "קיסוס מגוון",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "עלווה כללית קטן",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "עלווה כללית בינוני",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "עלווה כללית גדול",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "עציץ בית קטן",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "עציץ בית בינוני",
+    "price": 50,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "עציץ בית גדול",
+    "price": 80,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "צמח תלוי קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "צמח תלוי בינוני",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "צמח תלוי גדול",
+    "price": 70,
+    "unit": "יחידה",
+    "category": "צמחי בית ועלווה",
+    "description": "צמח בית ועלווה"
+  },
+  {
+    "name": "קולאוס",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "חרצית",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "בגוניה",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "גרניום",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "פטוניה",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "וינקה",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "לובליה",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "רקפת פרימיום",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "פורח עונתי קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "פורח עונתי בינוני",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "פורח עונתי גדול",
+    "price": 40,
+    "unit": "יחידה",
+    "category": "פורחים ועונתיים",
+    "description": "פורחים ועונתיים"
+  },
+  {
+    "name": "חסה",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "לבנדר קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "לבנדר בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "רוזמרין קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "רוזמרין בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "נענע",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "בזיליקום",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "טימין",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "מרווה",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "אורגנו",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "שתיל ירק",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "שתיל תבלין",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "תבלינים ומאכל",
+    "description": "תבלינים ומאכל"
+  },
+  {
+    "name": "סנדביליה",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי גינה וחוץ",
+    "description": "צמחי גינה וחוץ"
+  },
+  {
+    "name": "צמח גינה קטן",
+    "price": 20,
+    "unit": "יחידה",
+    "category": "צמחי גינה וחוץ",
+    "description": "צמחי גינה וחוץ"
+  },
+  {
+    "name": "צמח גינה בינוני",
+    "price": 30,
+    "unit": "יחידה",
+    "category": "צמחי גינה וחוץ",
+    "description": "צמחי גינה וחוץ"
+  },
+  {
+    "name": "צמח גינה גדול",
+    "price": 60,
+    "unit": "יחידה",
+    "category": "צמחי גינה וחוץ",
+    "description": "צמחי גינה וחוץ"
+  },
+  {
+    "name": "שתיל פרח עונתי",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "צמחי גינה וחוץ",
+    "description": "צמחי גינה וחוץ"
+  },
+  {
+    "name": "שתיל רב שנתי",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "צמחי גינה וחוץ",
+    "description": "צמחי גינה וחוץ"
+  },
+  {
+    "name": "בלין",
+    "price": 10,
+    "unit": "יחידה",
+    "category": "צמחי גינה וחוץ",
+    "description": "צמחי גינה וחוץ"
+  },
+  {
+    "name": "מארז 3 סוקולנטים",
+    "price": 100,
+    "unit": "יחידה",
+    "category": "מארזים",
+    "description": "מארזים מעוצבים"
+  },
+  {
+    "name": "מארז 4 סוקולנטים עם קערה",
+    "price": 110,
+    "unit": "יחידה",
+    "category": "מארזים",
+    "description": "מארזים מעוצבים"
+  },
+  {
+    "name": "מארז 6 סוקולנטים",
+    "price": 140,
+    "unit": "יחידה",
+    "category": "מארזים",
+    "description": "מארזים מעוצבים"
+  }
+];
+    const featuredNames = [
+  "ציפור גן עדן",
+  "מונסטרה גדולה",
+  "מארז 4 סוקולנטים עם קערה"
+];
+
     const categoryIcons = {
       "הכל": "🌿",
       "מוצרים קיימים": "🪴",
@@ -744,280 +1387,215 @@
       "מארזים": "🎁"
     };
 
-    const products = [
-      { name: "שק אדמה", price: 48, unit: "שק", category: "מוצרים קיימים", description: "מוצר קיים במחיר ברור" },
-      { name: "פורח", price: 18, unit: "יחידה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
-      { name: "רקפת", price: 20, unit: "יחידה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
-      { name: "צמח בלין", price: 2.22, unit: "יחידה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
-      { name: "ציפור גן עדן", price: 200, unit: "יחידה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
-      { name: "מארז צמחים בקערה", price: 150, unit: "יחידה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
-      { name: "כלי בטון עם סוקולנטים וחיפוי", price: 120, unit: "יחידת מכירה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
-      { name: "עציצים לעסק עם יוטה", price: 756, unit: "יחידת מכירה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
-      { name: "אדמה", price: 60, unit: "יחידת מכירה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
+    const categoryColors = {
+      "מוצרים קיימים": "#8db58b",
+      "סוקולנטים וקקטוסים": "#d6a44b",
+      "צמחי בית ועלווה": "#7aaad6",
+      "פורחים ועונתיים": "#d985b5",
+      "תבלינים ומאכל": "#8ccf7a",
+      "צמחי גינה וחוץ": "#c98e69",
+      "מארזים": "#8d83d6"
+    };
 
-      { name: "סוקולנט קטן", price: 18, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "סוקולנט בינוני", price: 28, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "סוקולנט גדול", price: 40, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "אכבריה", price: 18, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "הוורתיה", price: 18, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "קרסולה", price: 20, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "קלנכואה", price: 20, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "אלוורה קטן", price: 18, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "אלוורה בינוני", price: 30, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "אלוורה גדול", price: 50, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "קקטוס קטן", price: 15, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "קקטוס בינוני", price: 28, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "קקטוס גדול", price: 45, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
-      { name: "צורית נשפכת", price: 16, unit: "יחידה", category: "סוקולנטים וקקטוסים", description: "קטגוריית סוקולנטים וקקטוסים" },
+    const categoryDescriptions = {
+      "מוצרים קיימים": "מוצרים שכבר קיימים ברשימה המקורית של המשתלה",
+      "סוקולנטים וקקטוסים": "פתרונות קלים ונגישים עם מראה נקי ועמידות גבוהה",
+      "צמחי בית ועלווה": "צמחי פנים ועלווה בגדלים שונים לבית ולעסק",
+      "פורחים ועונתיים": "מוצרים צבעוניים לעונה עם נוכחות יפה ומהירה",
+      "תבלינים ומאכל": "צמחים שימושיים למטבח לגינה ולגידול ביתי",
+      "צמחי גינה וחוץ": "צמחים לחוץ לגינה ולכניסה עם טווח מחירים ברור",
+      "מארזים": "מארזים מעוצבים שמתאימים גם למתנה"
+    };
 
-      { name: "סנסיווריה קטן", price: 27, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "סנסיווריה בינוני", price: 45, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "סנסיווריה גדול", price: 75, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "מונסטרה קטנה", price: 40, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "מונסטרה בינונית", price: 65, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "מונסטרה גדולה", price: 110, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "סינגוניום קטן", price: 25, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "סינגוניום בינוני", price: 38, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "סינגוניום גדול", price: 55, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פוטוס קטן", price: 18, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פוטוס בינוני", price: 30, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פוטוס גדול", price: 50, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "זמיוקולקס קטן", price: 35, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "זמיוקולקס בינוני", price: 60, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "זמיוקולקס גדול", price: 95, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דרצנה קטן", price: 28, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דרצנה בינוני", price: 45, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דרצנה גדול", price: 80, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דקל קטן", price: 35, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דקל בינוני", price: 65, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דקל גדול", price: 120, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "כלורופיטום", price: 18, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "ספטיפיליום קטן", price: 28, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "ספטיפיליום בינוני", price: 45, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "ספטיפיליום גדול", price: 75, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "אנטוריום קטן", price: 35, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "אנטוריום בינוני", price: 55, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "אנטוריום גדול", price: 90, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פפרומיה קטן", price: 18, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פפרומיה בינוני", price: 28, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פפרומיה גדול", price: 42, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פילודנדרון קטן", price: 25, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פילודנדרון בינוני", price: 45, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "פילודנדרון גדול", price: 75, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דיפנבכיה קטן", price: 25, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דיפנבכיה בינוני", price: 40, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "דיפנבכיה גדול", price: 70, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "אגלאונמה קטן", price: 28, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "אגלאונמה בינוני", price: 48, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "אגלאונמה גדול", price: 80, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "קרוטון קטן", price: 22, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "קרוטון בינוני", price: 38, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "קרוטון גדול", price: 65, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "קיסוס מגוון", price: 18, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "עלווה כללית קטן", price: 12, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "עלווה כללית בינוני", price: 18, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "עלווה כללית גדול", price: 28, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "עציץ בית קטן", price: 25, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "עציץ בית בינוני", price: 45, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "עציץ בית גדול", price: 80, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "צמח תלוי קטן", price: 22, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "צמח תלוי בינוני", price: 38, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
-      { name: "צמח תלוי גדול", price: 65, unit: "יחידה", category: "צמחי בית ועלווה", description: "צמח בית ועלווה" },
+    const normalizedProducts = products.map(item => ({
+      ...item,
+      roundedPrice: Math.round(Number(item.price))
+    }));
 
-      { name: "קולאוס", price: 12, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "חרצית", price: 15, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "בגוניה", price: 20, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "גרניום", price: 15, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "פטוניה", price: 12, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "וינקה", price: 12, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "לובליה", price: 12, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "רקפת פרימיום", price: 28, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "פורח עונתי קטן", price: 15, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "פורח עונתי בינוני", price: 22, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-      { name: "פורח עונתי גדול", price: 35, unit: "יחידה", category: "פורחים ועונתיים", description: "פורחים ועונתיים" },
-
-      { name: "חסה", price: 10, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "לבנדר קטן", price: 18, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "לבנדר בינוני", price: 30, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "רוזמרין קטן", price: 15, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "רוזמרין בינוני", price: 25, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "נענע", price: 12, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "בזיליקום", price: 12, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "טימין", price: 15, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "מרווה", price: 18, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "אורגנו", price: 15, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "שתיל ירק", price: 8, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-      { name: "שתיל תבלין", price: 10, unit: "יחידה", category: "תבלינים ומאכל", description: "תבלינים ומאכל" },
-
-      { name: "סנדביליה", price: 25, unit: "יחידה", category: "צמחי גינה וחוץ", description: "צמחי גינה וחוץ" },
-      { name: "צמח גינה קטן", price: 18, unit: "יחידה", category: "צמחי גינה וחוץ", description: "צמחי גינה וחוץ" },
-      { name: "צמח גינה בינוני", price: 30, unit: "יחידה", category: "צמחי גינה וחוץ", description: "צמחי גינה וחוץ" },
-      { name: "צמח גינה גדול", price: 55, unit: "יחידה", category: "צמחי גינה וחוץ", description: "צמחי גינה וחוץ" },
-      { name: "שתיל פרח עונתי", price: 8, unit: "יחידה", category: "צמחי גינה וחוץ", description: "צמחי גינה וחוץ" },
-      { name: "שתיל רב שנתי", price: 12, unit: "יחידה", category: "צמחי גינה וחוץ", description: "צמחי גינה וחוץ" },
-      { name: "בלין", price: 3, unit: "יחידה", category: "צמחי גינה וחוץ", description: "צמחי גינה וחוץ" },
-
-      { name: "מארז 3 סוקולנטים", price: 95, unit: "יחידה", category: "מארזים", description: "מארזים מעוצבים" },
-      { name: "מארז 4 סוקולנטים עם קערה", price: 110, unit: "יחידה", category: "מארזים", description: "מארזים מעוצבים" },
-      { name: "מארז 6 סוקולנטים", price: 140, unit: "יחידה", category: "מארזים", description: "מארזים מעוצבים" }
-    ];
-
-    const featuredNames = [
-      "ציפור גן עדן",
-      "מונסטרה גדולה",
-      "מארז 4 סוקולנטים עם קערה"
-    ];
-
-    const productsGrid = document.getElementById("productsGrid");
-    const featuredGrid = document.getElementById("featuredGrid");
-    const categoriesOverview = document.getElementById("categoriesOverview");
-    const filterPills = document.getElementById("filterPills");
-    const resultsCount = document.getElementById("resultsCount");
-    const searchInput = document.getElementById("searchInput");
-    const emptyState = document.getElementById("emptyState");
-    const statProducts = document.getElementById("statProducts");
-    const statCategories = document.getElementById("statCategories");
-
-    const categories = ["הכל", ...new Set(products.map(item => item.category))];
+    const categories = [...new Set(normalizedProducts.map(item => item.category))];
+    const categoryIds = Object.fromEntries(categories.map((category, index) => [category, `category-${index + 1}`]));
     let activeCategory = "הכל";
     let searchValue = "";
 
-    statProducts.textContent = products.length;
-    statCategories.textContent = categories.length - 1;
+    const searchInput = document.getElementById("searchInput");
+    const categoryChips = document.getElementById("categoryChips");
+    const featuredGrid = document.getElementById("featuredGrid");
+    const sections = document.getElementById("sections");
+    const emptyState = document.getElementById("emptyState");
+    const resultsBadge = document.getElementById("resultsBadge");
+    const statProducts = document.getElementById("statProducts");
+    const statCategories = document.getElementById("statCategories");
+    const statFeatured = document.getElementById("statFeatured");
 
     function formatPrice(price) {
       return `${Number(price).toLocaleString("he-IL")} ₪`;
     }
 
-    function createPill(category) {
+    function matchesSearch(item) {
+      const term = searchValue.trim().toLowerCase();
+      if (!term) return true;
+      return `${item.name} ${item.category} ${item.description} ${item.unit}`.toLowerCase().includes(term);
+    }
+
+    function getVisibleProducts() {
+      return normalizedProducts.filter(item => matchesSearch(item));
+    }
+
+    function setActiveChip(label) {
+      activeCategory = label;
+      renderChips();
+    }
+
+    function flashSection(section) {
+      section.classList.add("targeted");
+      window.setTimeout(() => section.classList.remove("targeted"), 1400);
+    }
+
+    function scrollToCategory(label) {
+      if (label === "הכל") {
+        setActiveChip(label);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      const sectionId = categoryIds[label];
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+
+      setActiveChip(label);
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+      flashSection(section);
+    }
+
+    function createChip(label) {
       const button = document.createElement("button");
-      button.className = `pill ${category === activeCategory ? "active" : ""}`;
-      button.textContent = `${categoryIcons[category] || "🌿"} ${category}`;
-      button.addEventListener("click", () => {
-        activeCategory = category;
-        renderAll();
-        document.getElementById("menu").scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+      button.type = "button";
+      button.className = `chip ${label === activeCategory ? "active" : ""}`;
+      button.textContent = `${categoryIcons[label] || "🌿"} ${label}`;
+      button.addEventListener("click", () => scrollToCategory(label));
       return button;
     }
 
-    function createCategoryCard(category) {
-      if (category === "הכל") return null;
-      const count = products.filter(item => item.category === category).length;
-      const card = document.createElement("div");
-      card.className = "category-card fade-in";
-      card.innerHTML = `
-        <div class="mini-tag">${categoryIcons[category] || "🌿"} ${count} פריטים</div>
-        <strong>${category}</strong>
-        <p>קטגוריה נגישה וברורה עם מוצרים מסודרים לפי סוג</p>
-      `;
-      card.addEventListener("click", () => {
-        activeCategory = category;
-        renderAll();
-        document.getElementById("menu").scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      return card;
+    function renderChips() {
+      categoryChips.innerHTML = "";
+      categoryChips.appendChild(createChip("הכל"));
+      categories.forEach(category => categoryChips.appendChild(createChip(category)));
     }
 
-    function createProductCard(product) {
+    function createHighlightCard(product) {
       const card = document.createElement("article");
-      card.className = "product-card fade-in";
+      card.className = "highlight-card";
       card.innerHTML = `
-        <div class="product-top">
+        <div class="highlight-top">
           <div>
             <div class="mini-tag">${categoryIcons[product.category] || "🌿"} ${product.category}</div>
             <h3>${product.name}</h3>
           </div>
-          <div class="emoji-badge">${categoryIcons[product.category] || "🌿"}</div>
+          <div class="price-badge">${formatPrice(product.roundedPrice)}</div>
         </div>
-
-        <p>${product.description}</p>
-
-        <div class="product-meta">
-          <span class="meta-chip">יחידה ${product.unit}</span>
-          <span class="meta-chip">מחיר נגיש</span>
-        </div>
-
-        <div class="product-bottom">
-          <div class="price-block">
-            <small>מחיר</small>
-            <strong>${formatPrice(product.price)}</strong>
-          </div>
-          <button class="ghost-btn" type="button">צפייה במוצר</button>
-        </div>
+        <p>${product.description} · ${product.unit}</p>
       `;
       return card;
-    }
-
-    function createHighlightCard(product, label) {
-      const card = document.createElement("article");
-      card.className = "highlight-card fade-in";
-      card.innerHTML = `
-        <div class="highlight-top">
-          <div>
-            <div class="mini-tag">${label}</div>
-            <h3>${product.name}</h3>
-          </div>
-          <div class="price">${formatPrice(product.price)}</div>
-        </div>
-        <p>${product.category} · ${product.unit}</p>
-      `;
-      return card;
-    }
-
-    function getFilteredProducts() {
-      return products.filter(product => {
-        const matchCategory = activeCategory === "הכל" || product.category === activeCategory;
-        const term = searchValue.trim().toLowerCase();
-        const matchSearch = !term || `${product.name} ${product.category} ${product.description}`.toLowerCase().includes(term);
-        return matchCategory && matchSearch;
-      });
-    }
-
-    function renderPills() {
-      filterPills.innerHTML = "";
-      categories.forEach(category => filterPills.appendChild(createPill(category)));
-    }
-
-    function renderCategories() {
-      categoriesOverview.innerHTML = "";
-      categories.forEach(category => {
-        const card = createCategoryCard(category);
-        if (card) categoriesOverview.appendChild(card);
-      });
     }
 
     function renderFeatured() {
       featuredGrid.innerHTML = "";
-      const labels = ["בחירה בולטת", "מומלץ לבית", "מתנה מושלמת"];
-      featuredNames
-        .map(name => products.find(item => item.name === name))
-        .filter(Boolean)
-        .forEach((product, index) => featuredGrid.appendChild(createHighlightCard(product, labels[index] || "מומלץ")));
+      const featuredItems = normalizedProducts.filter(item => featuredNames.includes(item.name));
+      featuredItems.forEach(item => featuredGrid.appendChild(createHighlightCard(item)));
+      statFeatured.textContent = featuredItems.length;
     }
 
-    function renderProducts() {
-      const filtered = getFilteredProducts();
-      productsGrid.innerHTML = "";
+    function createProductCard(product, color) {
+      const card = document.createElement("article");
+      card.className = "product-card";
+      card.style.setProperty("--cat-color", color);
+      card.innerHTML = `
+        <div class="product-top">
+          <div>
+            <div class="mini-tag">${categoryIcons[product.category] || "🌿"} ${product.unit}</div>
+            <h3 class="product-name">${product.name}</h3>
+          </div>
+          <div class="emoji">${categoryIcons[product.category] || "🌿"}</div>
+        </div>
 
-      filtered.forEach(product => {
-        productsGrid.appendChild(createProductCard(product));
-      });
+        <p class="product-desc">${product.description}</p>
 
-      resultsCount.textContent = `${filtered.length} מוצרים מוצגים`;
-      emptyState.classList.toggle("show", filtered.length === 0);
+        <div class="meta-row">
+          <span class="meta-chip">קטגוריה ${product.category}</span>
+          <span class="meta-chip">מחיר מעוגל</span>
+        </div>
+
+        <div class="product-bottom">
+          <div class="price-box">
+            <small>מחיר</small>
+            <strong>${formatPrice(product.roundedPrice)}</strong>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function createCategorySection(category, items) {
+      const color = categoryColors[category] || "#c9d5c4";
+      const section = document.createElement("section");
+      section.className = "category-section";
+      section.id = categoryIds[category] || "";
+      section.dataset.category = category;
+      section.style.setProperty("--cat-color", color);
+
+      const header = document.createElement("div");
+      header.className = "category-header";
+      header.innerHTML = `
+        <div class="category-title-row">
+          <h3 class="category-title">
+            <span>${categoryIcons[category] || "🌿"}</span>
+            <span>${category}</span>
+          </h3>
+          <div class="price-badge">${items.length} פריטים</div>
+        </div>
+        <p class="category-sub">${categoryDescriptions[category] || "קטגוריה מתוך התפריט הקיים"} </p>
+      `;
+
+      const body = document.createElement("div");
+      body.className = "section-body";
+      items.forEach(item => body.appendChild(createProductCard(item, color)));
+
+      section.appendChild(header);
+      section.appendChild(body);
+      return section;
+    }
+
+    function renderSections() {
+      sections.innerHTML = "";
+      const visible = getVisibleProducts();
+      resultsBadge.textContent = `${visible.length} מוצרים`;
+
+      const grouped = categories
+        .map(category => {
+          const items = visible.filter(item => item.category === category)
+            .sort((a, b) => a.roundedPrice - b.roundedPrice || a.name.localeCompare(b.name, "he"));
+          return { category, items };
+        })
+        .filter(group => group.items.length);
+
+      grouped.forEach(group => sections.appendChild(createCategorySection(group.category, group.items)));
+      emptyState.classList.toggle("show", grouped.length === 0);
     }
 
     function renderAll() {
-      renderPills();
-      renderCategories();
+      statProducts.textContent = normalizedProducts.length;
+      statCategories.textContent = categories.length;
+      renderChips();
       renderFeatured();
-      renderProducts();
+      renderSections();
     }
 
-    searchInput.addEventListener("input", event => {
+    searchInput.addEventListener("input", (event) => {
       searchValue = event.target.value;
-      renderProducts();
+      renderSections();
+      if (searchValue.trim()) {
+        setActiveChip("הכל");
+      }
     });
 
     renderAll();
