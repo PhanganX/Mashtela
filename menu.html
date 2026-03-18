@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>משתלת הצמח צדק</title>
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --card: rgba(255,255,255,0.78);
+      --green-1: #294b37;
+      --green-2: #4e7a5a;
+      --green-3: #7aa27d;
+      --earth: #8d6a4f;
+      --sand: #e7dcc8;
+      --text: #223127;
+      --muted: #5e6e62;
+      --line: rgba(41,75,55,0.12);
+      --shadow: 0 20px 50px rgba(41,75,55,0.12);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Heebo", "Arial", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(122,162,125,0.18), transparent 24%),
+        radial-gradient(circle at bottom left, rgba(141,106,79,0.12), transparent 18%),
+        linear-gradient(180deg, #f8f4ec 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 42px 0 24px;
+    }
+
+    .hero-box {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(41,75,55,0.95), rgba(78,122,90,0.88));
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: 42px 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-box::before,
+    .hero-box::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-box::before {
+      width: 240px;
+      height: 240px;
+      top: -80px;
+      left: -60px;
+    }
+
+    .hero-box::after {
+      width: 180px;
+      height: 180px;
+      bottom: -50px;
+      right: -30px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.16);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .hero-panel {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      padding: 18px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-panel h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .hero-panel p {
+      margin: 0;
+      font-size: 15px;
+      color: rgba(255,255,255,0.86);
+    }
+
+    .top-nav {
+      padding: 12px 0 10px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(246,241,232,0.82);
+      border-bottom: 1px solid rgba(41,75,55,0.08);
+    }
+
+    .nav-wrap {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .nav-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--green-1);
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 10px 16px;
+      border-radius: 999px;
+      white-space: nowrap;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: var(--green-1);
+      color: #fff;
+      border-color: var(--green-1);
+      transform: translateY(-1px);
+    }
+
+    .section {
+      padding: 26px 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 34px);
+      color: var(--green-1);
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.75);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.25), transparent 50%);
+    }
+
+    .card-head {
+      padding: 18px 18px 10px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.14));
+    }
+
+    .card-head h3 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--green-1);
+    }
+
+    .card-head span {
+      display: inline-block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .price-list {
+      list-style: none;
+      margin: 0;
+      padding: 10px 18px 18px;
+    }
+
+    .price-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px dashed rgba(41,75,55,0.12);
+    }
+
+    .price-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .item-name {
+      font-weight: 500;
+    }
+
+    .item-price {
+      font-weight: 800;
+      color: var(--green-1);
+      white-space: nowrap;
+    }
+
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .highlight {
+      background: linear-gradient(180deg, #fff, #f7f2e9);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(41,75,55,0.08);
+      text-align: center;
+    }
+
+    .highlight strong {
+      display: block;
+      font-size: 24px;
+      color: var(--green-1);
+      margin-bottom: 4px;
+    }
+
+    .highlight span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cta {
+      padding: 30px 0 42px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, #fff, #f3ebdf);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 4vw, 36px);
+      color: var(--green-1);
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-item {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .contact-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--green-1);
+    }
+
+    footer {
+      padding: 0 0 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .cta-box,
+      .cards,
+      .highlight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel {
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 24px;
+      }
+
+      .hero-box,
+      .cta-box {
+        padding: 22px 18px;
+      }
+
+      .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .price-list li {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="hero-box">
+        <div class="hero-grid">
+          <div>
+            <div class="badge">משתלת הצמח צדק</div>
+            <h1>תפריט המשתלה</h1>
+            <p class="subtitle">צמחים לבית לגינה ולמשרד עם תמחור מסודר ונראות נקייה ומזמינה</p>
+          </div>
+          <div class="hero-panel">
+            <h3>חקלאות לגוף ולנפש</h3>
+            <p>מבחר צמחי בית סוקולנטים פורחים תבלינים מארזים ומתנות באווירה טבעית ונקייה</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="top-nav">
+    <div class="container nav-wrap">
+      <a class="nav-link" href="#house">צמחי בית ועלווה</a>
+      <a class="nav-link" href="#succulents">סוקולנטים וקקטוסים</a>
+      <a class="nav-link" href="#flowers">פורחים ועונתיים</a>
+      <a class="nav-link" href="#herbs">תבלינים ומאכל</a>
+      <a class="nav-link" href="#garden">צמחי גינה וחוץ</a>
+      <a class="nav-link" href="#gift">מארזים ומתנות</a>
+      <a class="nav-link" href="#extras">מוצרים משלימים</a>
+      <a class="nav-link" href="#contact">יצירת קשר</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="highlight-grid">
+          <div class="highlight">
+            <strong>18 ₪</strong>
+            <span>החל מסוקולנטים קטנים</span>
+          </div>
+          <div class="highlight">
+            <strong>25 ₪</strong>
+            <span>החל מצמחי בית בסיסיים</span>
+          </div>
+          <div class="highlight">
+            <strong>95 ₪</strong>
+            <span>מארזי מתנה בסיסיים</span>
+          </div>
+          <div class="highlight">
+            <strong>48 ₪</strong>
+            <span>שק אדמה</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="house">
+      <div class="container">
+        <div class="section-title">
+          <h2>צמחי בית ועלווה</h2>
+          <p>צמחים לבית למשרד ולפינות ירוקות</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <h3>קטגוריית מידות</h3>
+              <span>מחירי בסיס</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">עציץ בית קטן</span><span class="item-price">25 ₪</span></li>
+              <li><span class="item-name">עציץ בית בינוני</span><span class="item-price">45 ₪</span></li>
+              <li><span class="item-name">עציץ בית גדול</span><span class="item-price">80 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>צמחים מובילים</h3>
+              <span>דוגמאות נפוצות</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">מונסטרה קטנה</span><span class="item-price">40 ₪</span></li>
+              <li><span class="item-name">סינגוניום קטן</span><span class="item-price">25 ₪</span></li>
+              <li><span class="item-name">פוטוס קטן</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">זמיוקולקס קטן</span><span class="item-price">35 ₪</span></li>
+              <li><span class="item-name">פילודנדרון קטן</span><span class="item-price">25 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>צמחים מיוחדים</h3>
+              <span>למראה עשיר יותר</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">ספטיפיליום בינוני</span><span class="item-price">45 ₪</span></li>
+              <li><span class="item-name">אנטוריום בינוני</span><span class="item-price">55 ₪</span></li>
+              <li><span class="item-name">אגלאונמה בינוני</span><span class="item-price">48 ₪</span></li>
+              <li><span class="item-name">דיפנבכיה בינוני</span><span class="item-price">40 ₪</span></li>
+              <li><span class="item-name">קרוטון בינוני</span><span class="item-price">38 ₪</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="succulents">
+      <div class="container">
+        <div class="section-title">
+          <h2>סוקולנטים וקקטוסים</h2>
+          <p>בחירה קלה למתנה לפינה קטנה או למארז</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <h3>סוקולנטים</h3>
+              <span>מחירי בסיס</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">סוקולנט קטן</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">סוקולנט בינוני</span><span class="item-price">28 ₪</span></li>
+              <li><span class="item-name">סוקולנט גדול</span><span class="item-price">40 ₪</span></li>
+              <li><span class="item-name">אכבריה</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">הוורתיה</span><span class="item-price">18 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>קקטוסים ואלוורה</h3>
+              <span>עמידים וקלים לטיפול</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">קקטוס קטן</span><span class="item-price">15 ₪</span></li>
+              <li><span class="item-name">קקטוס בינוני</span><span class="item-price">28 ₪</span></li>
+              <li><span class="item-name">קקטוס גדול</span><span class="item-price">45 ₪</span></li>
+              <li><span class="item-name">אלוורה קטן</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">אלוורה בינוני</span><span class="item-price">30 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>פריטים משלימים</h3>
+              <span>שילובים למארזים</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">צורית נשפכת</span><span class="item-price">16 ₪</span></li>
+              <li><span class="item-name">קרסולה</span><span class="item-price">20 ₪</span></li>
+              <li><span class="item-name">קלנכואה</span><span class="item-price">20 ₪</span></li>
+              <li><span class="item-name">מארז 3 סוקולנטים</span><span class="item-price">95 ₪</span></li>
+              <li><span class="item-name">מארז 4 סוקולנטים עם קערה</span><span class="item-price">110 ₪</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="flowers">
+      <div class="container">
+        <div class="section-title">
+          <h2>פורחים ועונתיים</h2>
+          <p>צבע נוכחות ורעננות</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <h3>פורחים מוכרים</h3>
+              <span>נמכרים ונגישים</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">פורח</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">רקפת</span><span class="item-price">20 ₪</span></li>
+              <li><span class="item-name">רקפת פרימיום</span><span class="item-price">28 ₪</span></li>
+              <li><span class="item-name">חרצית</span><span class="item-price">15 ₪</span></li>
+              <li><span class="item-name">גרניום</span><span class="item-price">15 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>עונתיים</h3>
+              <span>לגיוון מהיר בתצוגה</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">בגוניה</span><span class="item-price">20 ₪</span></li>
+              <li><span class="item-name">פטוניה</span><span class="item-price">12 ₪</span></li>
+              <li><span class="item-name">וינקה</span><span class="item-price">12 ₪</span></li>
+              <li><span class="item-name">לובליה</span><span class="item-price">12 ₪</span></li>
+              <li><span class="item-name">קולאוס</span><span class="item-price">12 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>פורח לפי גודל</h3>
+              <span>טווחי מחיר נוחים</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">פורח עונתי קטן</span><span class="item-price">15 ₪</span></li>
+              <li><span class="item-name">פורח עונתי בינוני</span><span class="item-price">22 ₪</span></li>
+              <li><span class="item-name">פורח עונתי גדול</span><span class="item-price">35 ₪</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="herbs">
+      <div class="container">
+        <div class="section-title">
+          <h2>תבלינים ומאכל</h2>
+          <p>טבע שימושי לבית ולמטבח</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <h3>תבלינים בסיסיים</h3>
+              <span>זמינים ונוחים</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">נענע</span><span class="item-price">12 ₪</span></li>
+              <li><span class="item-name">בזיליקום</span><span class="item-price">12 ₪</span></li>
+              <li><span class="item-name">טימין</span><span class="item-price">15 ₪</span></li>
+              <li><span class="item-name">מרווה</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">אורגנו</span><span class="item-price">15 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>ריחניים</h3>
+              <span>לגינה ולמטבח</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">רוזמרין קטן</span><span class="item-price">15 ₪</span></li>
+              <li><span class="item-name">רוזמרין בינוני</span><span class="item-price">25 ₪</span></li>
+              <li><span class="item-name">לבנדר קטן</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">לבנדר בינוני</span><span class="item-price">30 ₪</span></li>
+              <li><span class="item-name">חסה</span><span class="item-price">10 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>שתילים</h3>
+              <span>לרכישה קלה בכמות</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">שתיל ירק</span><span class="item-price">8 ₪</span></li>
+              <li><span class="item-name">שתיל תבלין</span><span class="item-price">10 ₪</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="garden">
+      <div class="container">
+        <div class="section-title">
+          <h2>צמחי גינה וחוץ</h2>
+          <p>מבחר לצבע נפח וחוץ</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <h3>צמחי גינה</h3>
+              <span>לפי גודל</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">צמח גינה קטן</span><span class="item-price">18 ₪</span></li>
+              <li><span class="item-name">צמח גינה בינוני</span><span class="item-price">30 ₪</span></li>
+              <li><span class="item-name">צמח גינה גדול</span><span class="item-price">55 ₪</span></li>
+              <li><span class="item-name">סנדביליה</span><span class="item-price">25 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>מוצרים מיוחדים</h3>
+              <span>פריטים בולטים</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">ציפור גן עדן</span><span class="item-price">200 ₪</span></li>
+              <li><span class="item-name">בלין</span><span class="item-price">3 ₪</span></li>
+              <li><span class="item-name">שתיל פרח עונתי</span><span class="item-price">8 ₪</span></li>
+              <li><span class="item-name">שתיל רב שנתי</span><span class="item-price">12 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>הזמנות מיוחדות</h3>
+              <span>לבית לעסק ולחוץ</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">שילובי גינה בהתאמה</span><span class="item-price">לפי הצעה</span></li>
+              <li><span class="item-name">פינות ירוקות לעסק</span><span class="item-price">לפי הצעה</span></li>
+              <li><span class="item-name">שתילה בפרויקט</span><span class="item-price">לפי הצעה</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gift">
+      <div class="container">
+        <div class="section-title">
+          <h2>מארזים ומתנות</h2>
+          <p>מוכנים למתנה או להתאמה אישית</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <h3>מארזים מוכנים</h3>
+              <span>אפשר לבחור לפי תקציב</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">מארז צמחים בקערה</span><span class="item-price">150 ₪</span></li>
+              <li><span class="item-name">מארז 3 סוקולנטים</span><span class="item-price">95 ₪</span></li>
+              <li><span class="item-name">מארז 4 סוקולנטים עם קערה</span><span class="item-price">110 ₪</span></li>
+              <li><span class="item-name">מארז 6 סוקולנטים</span><span class="item-price">140 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>מארזי עיצוב</h3>
+              <span>בתוספות משלימות</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">כלי בטון עם סוקולנטים וחיפוי</span><span class="item-price">120 ₪</span></li>
+              <li><span class="item-name">התאמת כלי וחיפוי</span><span class="item-price">לפי הצעה</span></li>
+              <li><span class="item-name">מארז לעסק או למשרד</span><span class="item-price">לפי הצעה</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>התאמה אישית</h3>
+              <span>למתנות ואירועים</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">מארז לפי תקציב</span><span class="item-price">בהתאמה</span></li>
+              <li><span class="item-name">שילוב צמח כלי וחיפוי</span><span class="item-price">בהתאמה</span></li>
+              <li><span class="item-name">הכנה להזמנה מיוחדת</span><span class="item-price">בהתאמה</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="extras">
+      <div class="container">
+        <div class="section-title">
+          <h2>אדמה ומוצרים משלימים</h2>
+          <p>להשלמת קנייה במקום אחד</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <h3>אדמה</h3>
+              <span>מוצרים בסיסיים</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">שק אדמה</span><span class="item-price">48 ₪</span></li>
+              <li><span class="item-name">אדמה</span><span class="item-price">60 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>תוספות</h3>
+              <span>למארזים ולעיצוב</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">יוטה</span><span class="item-price">12 ₪</span></li>
+              <li><span class="item-name">חול קוורץ לבן</span><span class="item-price">8 ₪</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>שירותים נוספים</h3>
+              <span>מעבר למוצר בודד</span>
+            </div>
+            <ul class="price-list">
+              <li><span class="item-name">סידור צמחים לעסק</span><span class="item-price">לפי הצעה</span></li>
+              <li><span class="item-name">סידור למשרד</span><span class="item-price">לפי הצעה</span></li>
+              <li><span class="item-name">התאמת כלי קיבול</span><span class="item-price">לפי הצעה</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="contact">
+      <div class="container">
+        <div class="cta-box">
+          <div>
+            <h2>רוצים שנכין לכם משהו מיוחד</h2>
+            <p>אפשר לבחור צמח בודד מארז מתנה שילוב לעסק או פינה ירוקה לבית ולהתאים לפי הצורך והתקציב</p>
+          </div>
+          <div class="contact-list">
+            <div class="contact-item">
+              <strong>שם העסק</strong>
+              משתלת הצמח צדק
+            </div>
+            <div class="contact-item">
+              <strong>מיקום</strong>
+              נתניה
+            </div>
+            <div class="contact-item">
+              <strong>הערה</strong>
+              אפשר להחליף כאן טלפון אינסטגרם וואטסאפ ושעות פעילות
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">נבנה כתפריט HTML מוכן לעלייה ל GitHub Pages</div>
+  </footer>
+</body>
+</html>
