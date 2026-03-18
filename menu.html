@@ -273,15 +273,15 @@
     }
 
     .pill {
-      border: 1px solid var(--pill-border, transparent);
+      border: 0;
       cursor: pointer;
       white-space: nowrap;
       border-radius: 999px;
       padding: 11px 14px;
       font: inherit;
       font-size: 14px;
-      background: var(--pill-bg, #f0f4eb);
-      color: var(--pill-text, var(--primary-strong));
+      background: #f0f4eb;
+      color: var(--primary-strong);
       transition: 0.2s ease;
     }
 
@@ -290,10 +290,9 @@
     }
 
     .pill.active {
-      background: var(--pill-active, var(--primary));
+      background: var(--primary);
       color: white;
-      border-color: var(--pill-active, var(--primary));
-      box-shadow: 0 10px 22px rgba(30, 42, 31, 0.16);
+      box-shadow: 0 10px 22px rgba(95, 127, 82, 0.22);
     }
 
     main {
@@ -745,21 +744,6 @@
       "מארזים": "🎁"
     };
 
-    const categoryThemes = {
-      "הכל": { solid: "#5f7f52", soft: "#eef4e8", border: "#c9d8bf", accent: "#46633d", shadow: "rgba(95, 127, 82, 0.16)" },
-      "מוצרים קיימים": { solid: "#6c7a4b", soft: "#f3f5e7", border: "#d6ddbb", accent: "#55603b", shadow: "rgba(108, 122, 75, 0.16)" },
-      "סוקולנטים וקקטוסים": { solid: "#4f8b63", soft: "#e7f4ea", border: "#b7d9c1", accent: "#2f6b43", shadow: "rgba(79, 139, 99, 0.16)" },
-      "צמחי בית ועלווה": { solid: "#3f8f7a", soft: "#e5f4f0", border: "#b5ddd3", accent: "#2a6e5d", shadow: "rgba(63, 143, 122, 0.16)" },
-      "פורחים ועונתיים": { solid: "#c46f95", soft: "#f9eaf1", border: "#ecc4d6", accent: "#9b4d72", shadow: "rgba(196, 111, 149, 0.16)" },
-      "תבלינים ומאכל": { solid: "#5e9b55", soft: "#edf7e8", border: "#c5dfbc", accent: "#45723f", shadow: "rgba(94, 155, 85, 0.16)" },
-      "צמחי גינה וחוץ": { solid: "#5a88b8", soft: "#ebf2fb", border: "#c8d8ee", accent: "#3f6791", shadow: "rgba(90, 136, 184, 0.16)" },
-      "מארזים": { solid: "#c4994c", soft: "#fbf3e5", border: "#ead7b3", accent: "#946f33", shadow: "rgba(196, 153, 76, 0.16)" }
-    };
-
-    function getCategoryTheme(category) {
-      return categoryThemes[category] || categoryThemes["הכל"];
-    }
-
     const products = [
       { name: "שק אדמה", price: 48, unit: "שק", category: "מוצרים קיימים", description: "מוצר קיים במחיר ברור" },
       { name: "פורח", price: 18, unit: "יחידה", category: "מוצרים קיימים", description: "מוצר קיים מהמחירון הפנימי" },
@@ -902,19 +886,13 @@
     statCategories.textContent = categories.length - 1;
 
     function formatPrice(price) {
-      return `${Math.round(Number(price)).toLocaleString("he-IL")} ₪`;
-    } ₪`;
+      return `${Number(price).toLocaleString("he-IL")} ₪`;
     }
 
     function createPill(category) {
       const button = document.createElement("button");
-      const theme = getCategoryTheme(category);
       button.className = `pill ${category === activeCategory ? "active" : ""}`;
       button.textContent = `${categoryIcons[category] || "🌿"} ${category}`;
-      button.style.setProperty("--pill-bg", theme.soft);
-      button.style.setProperty("--pill-text", theme.accent);
-      button.style.setProperty("--pill-border", theme.border);
-      button.style.setProperty("--pill-active", theme.solid);
       button.addEventListener("click", () => {
         activeCategory = category;
         renderAll();
@@ -926,15 +904,11 @@
     function createCategoryCard(category) {
       if (category === "הכל") return null;
       const count = products.filter(item => item.category === category).length;
-      const theme = getCategoryTheme(category);
       const card = document.createElement("div");
       card.className = "category-card fade-in";
-      card.style.background = `linear-gradient(180deg, rgba(255,255,255,0.96), ${theme.soft})`;
-      card.style.border = `1px solid ${theme.border}`;
-      card.style.boxShadow = `0 10px 24px ${theme.shadow}`;
       card.innerHTML = `
-        <div class="mini-tag" style="background:${theme.soft}; color:${theme.accent}; border:1px solid ${theme.border};">${categoryIcons[category] || "🌿"} ${count} פריטים</div>
-        <strong style="color:${theme.accent};">${category}</strong>
+        <div class="mini-tag">${categoryIcons[category] || "🌿"} ${count} פריטים</div>
+        <strong>${category}</strong>
         <p>קטגוריה נגישה וברורה עם מוצרים מסודרים לפי סוג</p>
       `;
       card.addEventListener("click", () => {
@@ -946,54 +920,45 @@
     }
 
     function createProductCard(product) {
-      const theme = getCategoryTheme(product.category);
       const card = document.createElement("article");
       card.className = "product-card fade-in";
-      card.style.background = `linear-gradient(180deg, rgba(255,255,255,0.98), ${theme.soft})`;
-      card.style.border = `1px solid ${theme.border}`;
-      card.style.borderTop = `5px solid ${theme.solid}`;
-      card.style.boxShadow = `0 16px 34px ${theme.shadow}`;
       card.innerHTML = `
         <div class="product-top">
           <div>
-            <div class="mini-tag" style="background:${theme.soft}; color:${theme.accent}; border:1px solid ${theme.border};">${categoryIcons[product.category] || "🌿"} ${product.category}</div>
+            <div class="mini-tag">${categoryIcons[product.category] || "🌿"} ${product.category}</div>
             <h3>${product.name}</h3>
           </div>
-          <div class="emoji-badge" style="background:${theme.soft}; border:1px solid ${theme.border};">${categoryIcons[product.category] || "🌿"}</div>
+          <div class="emoji-badge">${categoryIcons[product.category] || "🌿"}</div>
         </div>
 
         <p>${product.description}</p>
 
         <div class="product-meta">
-          <span class="meta-chip" style="background:${theme.soft}; color:${theme.accent}; border:1px solid ${theme.border};">יחידה ${product.unit}</span>
-          <span class="meta-chip" style="background:${theme.soft}; color:${theme.accent}; border:1px solid ${theme.border};">מחיר נגיש</span>
+          <span class="meta-chip">יחידה ${product.unit}</span>
+          <span class="meta-chip">מחיר נגיש</span>
         </div>
 
         <div class="product-bottom">
           <div class="price-block">
             <small>מחיר</small>
-            <strong style="color:${theme.accent};">${formatPrice(product.price)}</strong>
+            <strong>${formatPrice(product.price)}</strong>
           </div>
-          <button class="ghost-btn" type="button" style="border-color:${theme.border}; color:${theme.accent};">צפייה במוצר</button>
+          <button class="ghost-btn" type="button">צפייה במוצר</button>
         </div>
       `;
       return card;
     }
 
     function createHighlightCard(product, label) {
-      const theme = getCategoryTheme(product.category);
       const card = document.createElement("article");
       card.className = "highlight-card fade-in";
-      card.style.background = `linear-gradient(180deg, rgba(255,255,255,0.98), ${theme.soft})`;
-      card.style.border = `1px solid ${theme.border}`;
-      card.style.boxShadow = `0 16px 34px ${theme.shadow}`;
       card.innerHTML = `
         <div class="highlight-top">
           <div>
-            <div class="mini-tag" style="background:${theme.soft}; color:${theme.accent}; border:1px solid ${theme.border};">${label}</div>
+            <div class="mini-tag">${label}</div>
             <h3>${product.name}</h3>
           </div>
-          <div class="price" style="color:${theme.accent};">${formatPrice(product.price)}</div>
+          <div class="price">${formatPrice(product.price)}</div>
         </div>
         <p>${product.category} · ${product.unit}</p>
       `;
